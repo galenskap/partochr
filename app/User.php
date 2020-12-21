@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The sheets that the user liked
+     */
+    public function sheets()
+    {
+        return $this->belongsToMany(Sheet::class);
+    }
 }
