@@ -17,7 +17,7 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
         @inertiaHead
     </head>
-    <body class="font-mono theme-dark antialiased">
+    <body class="font-mono antialiased theme-dark">
         @inertia
 
         @env ('local')

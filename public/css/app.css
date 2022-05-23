@@ -19,6 +19,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-size: 1.3em;
+    margin: 0;
 }
 .font-mono {
     font-family: 'Roboto Mono', monospace;
@@ -34,13 +35,14 @@ body {
 main {
     max-width: 1024px;
     margin: 0 auto;
+    padding: 0 1em;
 }
 @media screen and (max-width: 768px) {
     .sm-hidden {
         display: none;
     }
 }
-/** default styles */
+/** Default styles **/
 /* links and buttons */
 a {
     text-decoration: underline;

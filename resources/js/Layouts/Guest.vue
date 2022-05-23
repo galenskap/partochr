@@ -27,7 +27,6 @@ import { Link } from '@inertiajs/inertia-vue3';
     text-align: center;
 }
 main {
-    padding: 0 1em;
     max-width: 600px;
 }
 </style>
