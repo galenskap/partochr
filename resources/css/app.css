@@ -62,11 +62,17 @@ button {
     cursor: pointer;
     background: var(--darkGrey);
     color: var(--white);
+    transition: all .2s ease-in-out;
 }
 button:hover {
     background: var(--tagColor);
     color: var(--white);
     transition: all .2s ease-in-out;
+}
+h2 {
+    text-transform: uppercase;
+    font-weight: normal;
+    margin: .5em 0;
 }
 
 /* Forms */
@@ -82,5 +88,6 @@ input {
     padding: .5em;
     font-size: .8em;
     margin: .5em 0;
-    border: 1px solid var(--tagColor);
+    border: 2px solid var(--tagColor);
+    border-radius: 3px;
 }
