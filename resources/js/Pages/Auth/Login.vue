@@ -67,20 +67,6 @@ const submit = () => {
 </template>
 
 <style scoped>
-.field {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: .5em;
-}
-.field label {
-    color: var(--tagColor);
-}
-.field input {
-    padding: .5em;
-    font-size: .8em;
-    margin: .5em 0;
-    border: 1px solid var(--tagColor);
-}
 .field.pwd {
     margin-bottom: 0;
 }

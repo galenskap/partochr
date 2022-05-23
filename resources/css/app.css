@@ -46,6 +46,8 @@ main {
 }
 
 /** default styles */
+
+/* links and buttons */
 a {
     text-decoration: underline;
     color: var(--tagColor);
@@ -63,4 +65,20 @@ button:hover {
     background: var(--tagColor);
     color: var(--white);
     transition: all .2s ease-in-out;
+}
+
+/* Forms */
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .5em;
+}
+label {
+    color: var(--tagColor);
+}
+input {
+    padding: .5em;
+    font-size: .8em;
+    margin: .5em 0;
+    border: 1px solid var(--tagColor);
 }
