@@ -1,5 +1,4 @@
 <script setup>
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
@@ -7,7 +6,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 
     <div class="full-logo">
         <Link :href="route('home')">
-            <img src="">
+            <img src="../../img/logo-partochr.png" alt="partochr">
         </Link>
     </div>
 
@@ -19,5 +18,16 @@ import { Link } from '@inertiajs/inertia-vue3';
 
 
 <style scoped>
-
+.full-logo img {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    margin: 5em auto 2em;
+    display: block;
+    text-align: center;
+}
+main {
+    padding: 0 1em;
+    max-width: 600px;
+}
 </style>

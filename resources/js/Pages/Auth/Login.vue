@@ -36,36 +36,70 @@ const submit = () => {
         </div>
 
         <form @submit.prevent="submit">
-            <div>
+            <div class="field email">
                 <BreezeLabel for="email" value="Email" />
                 <BreezeInput id="email" type="email" class="" v-model="form.email" required autofocus autocomplete="username" />
             </div>
 
-            <div class="">
+            <div class="field pwd">
                 <BreezeLabel for="password" value="Password" />
                 <BreezeInput id="password" type="password" class="" v-model="form.password" required autocomplete="current-password" />
             </div>
 
-            <div class="">
-                <label class="flex items-center">
+            <div class="field remember">
+                <label class="">
                     <BreezeCheckbox name="remember" v-model:checked="form.remember" />
-                    <span class="">Remember me</span>
+                    <span class="">Se rappeler de moi</span>
                 </label>
             </div>
 
-            <div class="">
-                <Link v-if="canResetPassword" :href="route('password.request')" class="">
-                    Forgot your password?
-                </Link>
-
-                <BreezeButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
+            <div class="field actions">
+                <BreezeButton class="login" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Se connecter
                 </BreezeButton>
+
+                <Link v-if="canResetPassword" :href="route('password.request')" class="forgot">
+                    Mot de passe oublié
+                </Link>
             </div>
         </form>
     </BreezeGuestLayout>
 </template>
 
 <style scoped>
-
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .5em;
+}
+.field label {
+    color: var(--tagColor);
+}
+.field input {
+    padding: .5em;
+    font-size: .8em;
+    margin: .5em 0;
+    border: 1px solid var(--tagColor);
+}
+.field.pwd {
+    margin-bottom: 0;
+}
+.remember, .forgot {
+    font-size: .75em;
+}
+.remember {
+    text-align: right;
+    font-style: italic;
+}
+.remember input {
+    margin-right: .8em;
+    font-size: .6em;
+}
+.actions {
+    text-align: center;
+    margin-top: 2em;
+}
+.forgot {
+    margin-top: 1em;
+}
 </style>

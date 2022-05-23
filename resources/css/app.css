@@ -20,6 +20,7 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
+    font-size: 1.3em;
 }
 .font-mono {
     font-family: 'Roboto Mono', monospace;
@@ -33,8 +34,33 @@ body {
     opacity: 0.25;
 }
 
+/** Responsive **/
+main {
+    max-width: 1024px;
+    margin: 0 auto;
+}
 @media screen and (max-width: 768px) {
     .sm-hidden {
         display: none;
     }
+}
+
+/** default styles */
+a {
+    text-decoration: underline;
+    color: var(--tagColor);
+}
+button {
+    padding: .5em 1em;
+    border: none;
+    border-radius: 3px;
+    font-size: 1em;
+    cursor: pointer;
+    background: var(--darkGrey);
+    color: var(--white);
+}
+button:hover {
+    background: var(--tagColor);
+    color: var(--white);
+    transition: all .2s ease-in-out;
 }
