@@ -3,19 +3,7 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import TagBigButton from '@/Components/TagBigButton.vue';
 
-// TODO: put this in a store
-const myTags = [
-    {
-        id: 1,
-        name: 'Country',
-        nbSongs: 12,
-    },
-    {
-        id: 2,
-        name: 'Classiques Jean',
-        nbSongs: 139,
-    },
-];
+defineProps(['tags', 'songs']);
 </script>
 
 <template>
@@ -47,8 +35,20 @@ const myTags = [
                 Mes classeurs
             </h2>
             <div class="tags">
-                <TagBigButton v-for="tag in myTags" :key="tag.id" :id="tag.id" :name="tag.name" :nbSongs="tag.nbSongs" />
+                <TagBigButton v-for="tag in tags" :key="tag.id" :id="tag.id" :name="tag.name" :nbSongs="tag.songs_count" />
             </div>
+            <!-- bouton "+" (ajout classeur existant [follow] ou nouveau [form]) -->
+        </section>
+
+        <section class="my-songs">
+            <h2 class="">
+                Mes dernières chansons
+            </h2>
+            <div class="songs">
+                <!-- latest songs links -->
+                <div v-for="song in songs" :key="song.id">{{ song.title }}</div>
+            </div>
+            <!-- bouton "+" (ajout nouvelle chanson) -->
         </section>
     </BreezeAuthenticatedLayout>
 </template>

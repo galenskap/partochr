@@ -52,4 +52,19 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tag::class, 'user_tag')->using(UserTag::class);
     }
+
+    /**
+     * The songs that the user has created.
+     */
+    public function songs()
+    {
+        return $this->hasMany(Song::class);
+    }
+    /**
+     * Latest songs that the user has modified.
+     */
+    public function latestSongs()
+    {
+        return $this->hasMany(Song::class)->latest('updated_at')->limit(5);
+    }
 }

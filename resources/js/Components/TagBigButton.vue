@@ -15,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-    <Link :href="'tag/'+id" class="tag-big-button">
+    <Link :href="'tags/'+id" class="tag-big-button">
         <span class="name">{{ name }}</span>
         <span class="nb-songs">{{ nbSongs }} {{ nbSongs > 1 ? "chansons" : "chanson" }}</span>
     </Link>
