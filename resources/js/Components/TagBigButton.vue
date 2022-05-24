@@ -1,5 +1,10 @@
 <script setup>
+import { Link } from '@inertiajs/inertia-vue3';
+
 defineProps({
+    id: {
+        type: Number,
+    },
     name: {
         type: String,
     },
@@ -10,10 +15,10 @@ defineProps({
 </script>
 
 <template>
-    <div class="tag-big-button">
+    <Link :href="'tag/'+id" class="tag-big-button">
         <span class="name">{{ name }}</span>
         <span class="nb-songs">{{ nbSongs }} {{ nbSongs > 1 ? "chansons" : "chanson" }}</span>
-    </div>
+    </Link>
 </template>
 
 <style scoped>
@@ -27,6 +32,7 @@ defineProps({
         cursor: pointer;
         margin-bottom: .5em;
         transition: ease-in-out .2s;
+        text-decoration: none;
     }
     .tag-big-button:hover {
         opacity: .8;

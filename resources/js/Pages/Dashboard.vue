@@ -47,7 +47,7 @@ const myTags = [
                 Mes classeurs
             </h2>
             <div class="tags">
-                <TagBigButton v-for="tag in myTags" :key="tag.id" :name="tag.name" :nbSongs="tag.nbSongs" />
+                <TagBigButton v-for="tag in myTags" :key="tag.id" :id="tag.id" :name="tag.name" :nbSongs="tag.nbSongs" />
             </div>
         </section>
     </BreezeAuthenticatedLayout>
