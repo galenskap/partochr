@@ -1,7 +1,7 @@
 /* color theme vars */
 :root {
-    --tagColor: #2f97c1;
-    --songColor: #eb5e28;
+    --songColor: #2f97c1;
+    --tagColor: #eb5e28;
     --darkThemeBg: #252422;
     --darkGrey: #403d39;
     --lightGrey: #ccc5b9;
@@ -52,7 +52,7 @@ main {
 /* links and buttons */
 a {
     text-decoration: underline;
-    color: var(--tagColor);
+    color: var(--songColor);
 }
 button {
     padding: .5em 1em;
@@ -65,7 +65,7 @@ button {
     transition: all .2s ease-in-out;
 }
 button:hover {
-    background: var(--tagColor);
+    background: var(--songColor);
     color: var(--white);
     transition: all .2s ease-in-out;
 }
@@ -82,12 +82,12 @@ h2 {
     margin-bottom: .5em;
 }
 label {
-    color: var(--tagColor);
+    color: var(--songColor);
 }
 input {
     padding: .5em;
     font-size: .8em;
     margin: .5em 0;
-    border: 2px solid var(--tagColor);
+    border: 2px solid var(--songColor);
     border-radius: 3px;
 }

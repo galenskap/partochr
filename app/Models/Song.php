@@ -18,4 +18,9 @@ class Song extends Model
     {
         return $this->belongsToMany(Tag::class)->using(SongTag::class);
     }
+
+    public function artist()
+    {
+        return $this->belongsTo(Artist::class);
+    }
 }

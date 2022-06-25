@@ -15,6 +15,7 @@ class UserController extends Controller
         $user = $request->user();
         $tags = $user->tags()->withCount('songs')->get();
         $songs = $user->latestSongs()->get();
+        $songs->load('artist');
 
         return Inertia::render('Dashboard', [
             'tags' => $tags,

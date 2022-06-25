@@ -2,6 +2,7 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import TagBigButton from '@/Components/TagBigButton.vue';
+import SongBigButton from '@/Components/SongBigButton.vue';
 
 defineProps(['tags', 'songs']);
 </script>
@@ -14,7 +15,7 @@ defineProps(['tags', 'songs']);
             <p class="hug">Bonjour {{ $page.props.auth.user.name }} !</p>
             <ul class="auth-links">
                 <li>
-                    <Link :href="route('logout')" method="post" class="">
+                    <Link :href="route('logout')" method="post" as="button" class="">
                         Me déconnecter
                     </Link>
                 </li>
@@ -46,7 +47,7 @@ defineProps(['tags', 'songs']);
             </h2>
             <div class="songs">
                 <!-- latest songs links -->
-                <div v-for="song in songs" :key="song.id">{{ song.title }}</div>
+                <SongBigButton v-for="song in songs" :key="song.id" :id="song.id" :title="song.title" :artist="song.artist.name" :year="song.year" />
             </div>
             <!-- bouton "+" (ajout nouvelle chanson) -->
         </section>

@@ -86,7 +86,7 @@ const switchTheme = () => {
     cursor: pointer;
 }
 .fontsize:hover {
-    color: var(--tagColor);
+    color: var(--songColor);
 }
 .switchTheme:hover {
     filter: invert(70%) sepia(200%) saturate(220%) hue-rotate(140deg); /* kindof blue */
