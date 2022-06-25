@@ -91,4 +91,17 @@ input {
     border: 2px solid var(--songColor);
     border-radius: 3px;
 }
+.ql-container {
+    font-family: 'Roboto Mono', monospace !important;
+    font-size: 1em!important;
+}
+.ql-editor {
+    font-size: .8em;
+    border: 1px solid var(--songColor);
+    padding: 0 .5em;
+}
+.ql-disabled .ql-editor {
+    border: 0;
+    padding: 0;
+}
 

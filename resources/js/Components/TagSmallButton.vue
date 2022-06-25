@@ -2,18 +2,15 @@
 import { Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
-    id: {
-        type: Number,
-    },
-    name: {
-        type: String,
+    tag: {
+        type: Object,
     },
 });
 </script>
 
 <template>
-    <Link :href="'/tags/'+id" class="tag-small-button">
-        <span class="name">{{ name }}</span>
+    <Link :href="'/tags/'+tag.id" class="tag-small-button">
+        <span class="name">{{ tag.name }}</span>
     </Link>
 </template>
 

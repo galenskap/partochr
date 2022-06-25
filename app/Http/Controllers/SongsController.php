@@ -21,4 +21,11 @@ class SongsController extends Controller
             'song' => $song,
         ]);
     }
+
+    public function edit(Song $song, Request $request)
+    {
+        $song->lyrics = $request->lyrics;
+        $song->save();
+        return response()->json([$request]);
+    }
 }

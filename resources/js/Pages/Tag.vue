@@ -19,7 +19,7 @@ defineProps(['tag', 'songs']);
         <section class="songs">
             <ol class="songlist">
                 <li v-for="song in songs" :key="song.id">
-                    <SongBigButton :id="song.id" :title="song.title" :artist="song.artist.name" :year="song.year" />
+                    <SongBigButton :id="song.id" :song="song" />
                 </li>
             </ol>
             <!-- bouton "+" (ajout chanson existante [search] ou nouvelle [form]) -->

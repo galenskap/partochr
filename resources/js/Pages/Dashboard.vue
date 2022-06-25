@@ -36,7 +36,7 @@ defineProps(['tags', 'songs']);
                 Mes classeurs
             </h2>
             <div class="tags">
-                <TagBigButton v-for="tag in tags" :key="tag.id" :id="tag.id" :name="tag.name" :nbSongs="tag.songs_count" />
+                <TagBigButton v-for="tag in tags" :key="tag.id" :tag="tag" />
             </div>
             <!-- bouton "+" (ajout classeur existant [follow] ou nouveau [form]) -->
         </section>
@@ -47,7 +47,7 @@ defineProps(['tags', 'songs']);
             </h2>
             <div class="songs">
                 <!-- latest songs links -->
-                <SongBigButton v-for="song in songs" :key="song.id" :id="song.id" :title="song.title" :artist="song.artist.name" :year="song.year" />
+                <SongBigButton v-for="song in songs" :key="song.id" :song="song" />
             </div>
             <!-- bouton "+" (ajout nouvelle chanson) -->
         </section>

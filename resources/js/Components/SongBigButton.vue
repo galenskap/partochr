@@ -2,25 +2,16 @@
 import { Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
-    id: {
-        type: Number,
-    },
-    title: {
-        type: String,
-    },
-    year: {
-        type: Number,
-    },
-    artist: {
-        type: String,
+    song: {
+        type: Object,
     },
 });
 </script>
 
 <template>
-    <Link :href="'/songs/'+id" class="song-big-button">
-        <span class="name">{{ title }}</span>
-        <span class="details">{{ artist }}, {{ year }}</span>
+    <Link :href="'/songs/'+song.id" class="song-big-button">
+        <span class="name">{{ song.title }}</span>
+        <span class="details">{{ song.artist.name }}, {{ song.year }}</span>
     </Link>
 </template>
 

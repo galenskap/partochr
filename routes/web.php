@@ -24,5 +24,7 @@ Route::get('/', [UserController::class, 'dashboard'])->middleware(['auth', 'veri
 Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
 // show specific song page
 Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth', 'verified'])->name('songpage');
+// edit song
+Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
 
 require __DIR__.'/auth.php';

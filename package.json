@@ -24,5 +24,8 @@
         "postcss-import": "^14.0.2",
         "vue": "^3.2.31",
         "vue-loader": "^17.0.0"
+    },
+    "dependencies": {
+        "@vueup/vue-quill": "^1.0.0-beta.8"
     }
 }
