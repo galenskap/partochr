@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\SongsController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\UserController;
 
@@ -21,5 +22,7 @@ use App\Http\Controllers\UserController;
 Route::get('/', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('home');
 // show specific tag page
 Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
+// show specific song page
+Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth', 'verified'])->name('songpage');
 
 require __DIR__.'/auth.php';

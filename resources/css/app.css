@@ -39,7 +39,7 @@ body {
 main {
     max-width: 1024px;
     margin: 0 auto;
-    padding: 0 1em;
+    padding: 1em 1.7em;
 }
 @media screen and (max-width: 768px) {
     .sm-hidden {
@@ -72,6 +72,13 @@ button:hover {
 h2 {
     text-transform: uppercase;
     font-weight: normal;
+    margin: .5em 0;
+    font-size: 1.8em;
+}
+h3 {
+    color: var(--songColor);
+    font-weight: lighter;
+    font-size: 1em;
     margin: .5em 0;
 }
 

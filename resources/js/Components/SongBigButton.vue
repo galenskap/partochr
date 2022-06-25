@@ -18,7 +18,7 @@ defineProps({
 </script>
 
 <template>
-    <Link :href="'song/'+id" class="song-big-button">
+    <Link :href="'/songs/'+id" class="song-big-button">
         <span class="name">{{ title }}</span>
         <span class="details">{{ artist }}, {{ year }}</span>
     </Link>

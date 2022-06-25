@@ -8,40 +8,33 @@ defineProps({
     name: {
         type: String,
     },
-    nbSongs: {
-        type: Number,
-    },
 });
 </script>
 
 <template>
-    <Link :href="'/tags/'+id" class="tag-big-button">
+    <Link :href="'/tags/'+id" class="tag-small-button">
         <span class="name">{{ name }}</span>
-        <span class="nb-songs">{{ nbSongs }} {{ nbSongs > 1 ? "chansons" : "chanson" }}</span>
     </Link>
 </template>
 
 <style scoped>
-    .tag-big-button {
+    .tag-small-button {
         display: flex;
-        flex-direction: column;
-        padding: 0.5em 1em;
+        padding: .25em .25em;
         border-radius: 3px;
         background-color: var(--tagColor);
-        color: var(--white);
+        color: var(--darkThemeBg);
         cursor: pointer;
         margin-bottom: .5em;
         transition: ease-in-out .2s;
         text-decoration: none;
+        margin-right: .5em;
     }
-    .tag-big-button:hover {
+    .tag-small-button:hover {
         opacity: .8;
         transition: ease-in-out .2s;
     }
     .name {
-        font-size: 1em;
-    }
-    .nb-songs {
-        font-size: .8em;
+        font-size: .7em;
     }
 </style>
