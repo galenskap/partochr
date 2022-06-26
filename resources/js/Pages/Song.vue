@@ -14,11 +14,11 @@ let isEditing = ref(false);
 let lyrics = ref();
 let editor = ref();
 
-const toggleEditMode = (initialData) => {
-    // we need to go back to the inital state values (lyrics...)!
-    if(isEditing)
-        editor.pasteHTML(initialData, 'api');
+const toggleEditMode = () => {
     // if the user was editing
+    // we need to go back to the inital state values for the lyrics!
+    if(isEditing)
+        editor.pasteHTML(lyrics.value, 'api');
     isEditing.value = !isEditing.value;
     editor.enable(isEditing.value);
 }
@@ -26,15 +26,15 @@ const toggleEditMode = (initialData) => {
 const getEditor = (quill) => {
     editor = quill;
     editor.enable(false);
-}
-
-const editorChange = (html) => {
-    lyrics.value = html;
+    lyrics.value = editor.root.innerHTML; // initiate state value in order to easily go back
 }
 
 const sendModifications = (sid) => {
     // if the user clicked on the save button
-    // we need to send all the new data to the backend!
+    // I transform simple spaces into unbreakable, in order to keep the real spaces between chords
+    lyrics.value = editor.root.innerHTML.replace(/  /g," &nbsp;");
+
+    // then we need to send all the new data to the backend!
     console.log('sending data...');
 
     axios.post('/songs/'+sid+'/edit', {
@@ -61,7 +61,7 @@ const sendModifications = (sid) => {
             <h2>{{ song.title }}</h2>
             <p class="song-details">{{ song.artist.name }}, {{ song.year }}</p>
             <!-- edit button -->
-            <button v-if="user.id == song.user_id" @click="toggleEditMode(song.lyrics)">
+            <button v-if="user.id == song.user_id" @click="toggleEditMode()">
                 <span v-if="isEditing">Cancel!</span>
                 <span v-else>Edit!</span>
             </button>
@@ -76,7 +76,13 @@ const sendModifications = (sid) => {
         </section>
 
         <section class="lyrics">
-            <QuillEditor theme="bubble" toolbar="essential" contentType="html" :content="song.lyrics" @update:content="editorChange" @ready="getEditor" />
+            <QuillEditor
+                theme="bubble"
+                toolbar="essential"
+                contentType="html"
+                preserveWhitespace="true"
+                :content="song.lyrics"
+                @ready="getEditor" />
         </section>
 
         <button v-if="isEditing" @click="sendModifications(song.id)">
@@ -106,5 +112,9 @@ const sendModifications = (sid) => {
 }
 .lyrics {
     margin-top: 3em;
+    white-space: pre-wrap;
+}
+.ql-toolbar {
+    white-space: normal;
 }
 </style>

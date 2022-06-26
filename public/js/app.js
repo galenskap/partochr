@@ -22762,10 +22762,10 @@ __webpack_require__.r(__webpack_exports__);
     var lyrics = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
     var editor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
 
-    var toggleEditMode = function toggleEditMode(initialData) {
-      // we need to go back to the inital state values (lyrics...)!
-      if (isEditing) editor.pasteHTML(initialData, 'api'); // if the user was editing
-
+    var toggleEditMode = function toggleEditMode() {
+      // if the user was editing
+      // we need to go back to the inital state values for the lyrics!
+      if (isEditing) editor.pasteHTML(lyrics.value, 'api');
       isEditing.value = !isEditing.value;
       editor.enable(isEditing.value);
     };
@@ -22773,15 +22773,14 @@ __webpack_require__.r(__webpack_exports__);
     var getEditor = function getEditor(quill) {
       editor = quill;
       editor.enable(false);
-    };
-
-    var editorChange = function editorChange(html) {
-      lyrics.value = html;
+      lyrics.value = editor.root.innerHTML; // initiate state value in order to easily go back
     };
 
     var sendModifications = function sendModifications(sid) {
       // if the user clicked on the save button
-      // we need to send all the new data to the backend!
+      // I transform simple spaces into unbreakable, in order to keep the real spaces between chords
+      lyrics.value = editor.root.innerHTML.replace(/  /g, " &nbsp;"); // then we need to send all the new data to the backend!
+
       console.log('sending data...');
       axios__WEBPACK_IMPORTED_MODULE_6___default().post('/songs/' + sid + '/edit', {
         id: sid,
@@ -22801,7 +22800,6 @@ __webpack_require__.r(__webpack_exports__);
       editor: editor,
       toggleEditMode: toggleEditMode,
       getEditor: getEditor,
-      editorChange: editorChange,
       sendModifications: sendModifications,
       computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
@@ -24292,7 +24290,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" edit button "), $setup.user.id == $props.song.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
         key: 0,
         onClick: _cache[0] || (_cache[0] = function ($event) {
-          return $setup.toggleEditMode($props.song.lyrics);
+          return $setup.toggleEditMode();
         })
       }, [$setup.isEditing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_3, "Cancel!")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, "Edit!"))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.song.tags, function (tag) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["TagSmallButton"], {
@@ -24307,8 +24305,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         theme: "bubble",
         toolbar: "essential",
         contentType: "html",
+        preserveWhitespace: "true",
         content: $props.song.lyrics,
-        "onUpdate:content": $setup.editorChange,
         onReady: $setup.getEditor
       }, null, 8
       /* PROPS */
@@ -26656,7 +26654,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.taglist[data-v-3a3c4c84] {\n    padding: 0;\n    display: flex;\n    margin-top: 0;\n}\n.title[data-v-3a3c4c84] {\n    margin-bottom: 2em;\n}\n.title h2[data-v-3a3c4c84] {\n    margin-bottom: .1em;\n}\n.title .song-details[data-v-3a3c4c84] {\n    font-weight: lighter;\n    font-style: italic;\n    margin: 0;\n    font-size: .9em;\n}\n.lyrics[data-v-3a3c4c84] {\n    margin-top: 3em;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.taglist[data-v-3a3c4c84] {\n    padding: 0;\n    display: flex;\n    margin-top: 0;\n}\n.title[data-v-3a3c4c84] {\n    margin-bottom: 2em;\n}\n.title h2[data-v-3a3c4c84] {\n    margin-bottom: .1em;\n}\n.title .song-details[data-v-3a3c4c84] {\n    font-weight: lighter;\n    font-style: italic;\n    margin: 0;\n    font-size: .9em;\n}\n.lyrics[data-v-3a3c4c84] {\n    margin-top: 3em;\n    white-space: pre-wrap;\n}\n.ql-toolbar[data-v-3a3c4c84] {\n    white-space: normal;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
