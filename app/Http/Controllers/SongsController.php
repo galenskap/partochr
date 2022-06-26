@@ -7,6 +7,7 @@ use App\Models\Song;
 use Inertia\Inertia;
 use App\Models\Artist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 
@@ -24,6 +25,35 @@ class SongsController extends Controller
         ]);
     }
 
+    public function newSongPage(Request $request)
+    {
+        return Inertia::render('NewSong');
+    }
+
+    public function newSongCreate(Request $request)
+    {
+        $song = new Song;
+        $song->title = $request->title;
+        $song->lyrics = $request->lyrics;
+        $song->year = $request->year;
+        $song->user_id = Auth::user()->id;
+
+        // get artist by name
+        $artist = Artist::where('name', $request->artist)->get()->first();
+        // if no exact match, then create it
+        if (!$artist) {
+            // create artist
+            $artist = new Artist;
+            $artist->name = $request->artist;
+            $artist->save();
+        }
+
+        $song->artist_id = $artist->id;
+        $song->save();
+
+        return Redirect::route('songpage', $song);
+    }
+
     public function edit(Song $song, Request $request)
     {
         $song->title = $request->title;
@@ -32,6 +62,7 @@ class SongsController extends Controller
 
         // get artist by name
         $artist = Artist::where('name', $request->artist)->get()->first();
+        // if no exact match, then create it
         if (!$artist) {
             // create artist
             $artist = new Artist;

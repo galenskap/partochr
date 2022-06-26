@@ -20,13 +20,21 @@ use App\Http\Controllers\UserController;
 
 // dashboard with my tags
 Route::get('/', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('home');
-// show specific tag page
-Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
+
+// SONGS
+// song creation
+Route::get('songs/new', [SongsController::class, 'newSongPage'])->middleware(['auth', 'verified'])->name('new-song-page');
+Route::post('songs/new', [SongsController::class, 'newSongCreate'])->middleware(['auth', 'verified'])->name('new-song-create');
 // show specific song page
 Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth', 'verified'])->name('songpage');
-// edit song
+// song edition
 Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
 
+// TAGS
+// show specific tag page
+Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
+
+// API
 Route::post('search-artist', [SongsController::class, 'suggestArtistName'])-> middleware(['auth', 'verified'])->name('artistsuggestion');
 
 require __DIR__.'/auth.php';

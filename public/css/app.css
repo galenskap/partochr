@@ -94,6 +94,7 @@ input {
     box-sizing: border-box;
     max-width: 100%;
 }
+/** QUILL **/
 .ql-container {
     font-family: 'Roboto Mono', monospace !important;
     font-size: 1em!important;
@@ -104,6 +105,7 @@ input {
     padding: 0 .5em;
     background-color: white;
     color: var(--darkThemeBg);
+    min-height: 8em;
 }
 .ql-disabled .ql-editor {
     border: 0;
