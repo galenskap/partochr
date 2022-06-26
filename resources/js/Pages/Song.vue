@@ -11,8 +11,8 @@ defineProps(['song']);
 
 const user = computed(() => usePage().props.value.auth.user);
 let isEditing = ref(false);
-let lyrics = ref();
 let editor = ref();
+let searchresults = ref();
 
 const form = useForm({
     title: usePage().props.value.song.title,
@@ -25,7 +25,7 @@ const toggleEditMode = () => {
     // if the user was editing
     // we need to go back to the inital state values for the lyrics!
     if(isEditing) {
-        editor.pasteHTML(lyrics.value, 'api');
+        editor.pasteHTML(form.lyrics, 'api');
         form.reset();
     }
 
@@ -37,7 +37,7 @@ const getEditor = (quill) => {
     editor = quill;
     editor.enable(false);
     // initiate state value in order to easily go back
-    lyrics.value = editor.root.innerHTML;
+    form.lyrics = editor.root.innerHTML;
 }
 
 const sendModifications = (sid) => {
@@ -47,15 +47,37 @@ const sendModifications = (sid) => {
 
     // then we need to send all the new data to the backend!
     console.log('sending data...');
-    console.log(form);
 
     form.post('/songs/'+sid+'/edit', {
-
         onSuccess: (response) => {
             isEditing.value = false;
             editor.enable(false);
         }
     });
+}
+
+const autocomplete = (event) => {
+    let searchterm = event.target.value;
+    if (searchterm.length > 2) {
+        axios.post('/search-artist', {
+            search: searchterm,
+        })
+        .then(function (response) {
+            searchresults.value = response.data.artists;
+        })
+        .catch(function (errors) {
+            console.log(errors);
+        });
+    } else {
+        // empty suggestions
+        searchresults.value = null;
+    }
+}
+const chooseArtist = (event) => {
+    let choosenOne = event.target.textContent;
+    form.artist = choosenOne; // replace actual input content for the name
+    // empty suggestions
+    searchresults.value = null;
 }
 </script>
 
@@ -70,10 +92,16 @@ const sendModifications = (sid) => {
                 <input v-if="isEditing" type="text" name="title" class="titleEdit" v-model="form.title" />
                 <span v-else>{{song.title}}</span>
             </h2>
-            <p v-if="isEditing" class="song-details editing">
-                <input type="text" name="artist" class="artistEdit" v-model="form.artist" />
+            <div v-if="isEditing" class="song-details editing">
+                <div class="artist-wrapper">
+                    <input type="text" name="artist" class="artistEdit" @keyup="autocomplete" v-model="form.artist" />
+                    <ul v-if="searchresults" class="searchresults">
+                        <li v-for="result in searchresults" :key="result.id" @click="chooseArtist">{{ result.name }}</li>
+                    </ul>
+                </div>
+
                 <input type="text" name="year" class="yearEdit" v-model="form.year" />
-            </p>
+            </div>
             <p v-else class="song-details">{{ song.artist.name }}, {{ song.year }}</p>
             <!-- edit button -->
             <button v-if="user.id == song.user_id" @click="toggleEditMode()" class="editAction">
@@ -96,7 +124,7 @@ const sendModifications = (sid) => {
                 toolbar="essential"
                 contentType="html"
                 preserveWhitespace="true"
-                :content="song.lyrics"
+                :content="form.lyrics"
                 @ready="getEditor"
             />
             <textarea name="lyrics" style="display:none" v-model="form.lyrics"></textarea>
@@ -145,7 +173,7 @@ const sendModifications = (sid) => {
     width: 1.9em;
     height: 1.9em;
 }
-.titleEdit, .artistEdit, .yearEdit {
+.titleEdit, .artistEdit, .yearEdit, .searchresults {
     width: 100%;
 }
 .artistEdit {
@@ -155,9 +183,30 @@ const sendModifications = (sid) => {
     margin-top: 3em;
     white-space: pre-wrap;
 }
+
+.searchresults {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background: rgba(255, 255, 255, .8);
+    color: black;
+    border: 1px solid var(--songColor);
+    position: relative;
+    top: -.5em;
+    box-sizing: border-box;
+}
+.searchresults li {
+    font-size: .7em;
+    padding: .2em .5em;
+    font-style: italic;
+    cursor: pointer;
+}
+
+
 @media screen and (max-width: 768px) {
-    .titleEdit, .artistEdit, .yearEdit {
-        width: 8em;
+    .editAction .cancel {
+        right: -.9em;
+        top: -1.2em;
     }
 }
 </style>

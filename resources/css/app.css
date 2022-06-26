@@ -37,7 +37,7 @@ body {
 
 /** Responsive **/
 main {
-    max-width: 1024px;
+    max-width: 728px;
     margin: 0 auto;
     padding: 1em 1.7em;
 }

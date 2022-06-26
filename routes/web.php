@@ -27,4 +27,6 @@ Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth'
 // edit song
 Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
 
+Route::post('search-artist', [SongsController::class, 'suggestArtistName'])-> middleware(['auth', 'verified'])->name('artistsuggestion');
+
 require __DIR__.'/auth.php';
