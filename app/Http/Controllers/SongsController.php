@@ -6,6 +6,7 @@ use App\Models\Tag;
 use App\Models\Song;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 
 class SongsController extends Controller
@@ -24,8 +25,9 @@ class SongsController extends Controller
 
     public function edit(Song $song, Request $request)
     {
+        $song->title = $request->title;
         $song->lyrics = $request->lyrics;
         $song->save();
-        return response()->json([$request]);
+        return Redirect::route('songpage', $song);
     }
 }

@@ -57,6 +57,7 @@ button {
     background: var(--darkGrey);
     color: var(--white);
     transition: all .2s ease-in-out;
+    width: 100%;
 }
 button:hover {
     background: var(--songColor);
@@ -90,6 +91,8 @@ input {
     margin: .5em 0;
     border: 2px solid var(--songColor);
     border-radius: 3px;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 .ql-container {
     font-family: 'Roboto Mono', monospace !important;
@@ -99,9 +102,16 @@ input {
     font-size: .8em;
     border: 1px solid var(--songColor);
     padding: 0 .5em;
+    background-color: white;
+    color: var(--darkThemeBg);
 }
 .ql-disabled .ql-editor {
     border: 0;
     padding: 0;
+    background-color: inherit;
+    color: inherit;
+}
+.ql-toolbar {
+    white-space: normal;
 }
 

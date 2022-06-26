@@ -65,6 +65,9 @@ defineProps(['tags', 'songs']);
     margin: 0;
     font-size: .8em;
 }
+.auth-links button {
+    width: auto;
+}
 section {
     margin-bottom: 2em;
     display: flex;

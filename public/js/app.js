@@ -22761,35 +22761,44 @@ __webpack_require__.r(__webpack_exports__);
     var isEditing = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var lyrics = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
     var editor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
+    var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm)({
+      title: (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.usePage)().props.value.song.title,
+      artist: (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.usePage)().props.value.song.artist.name,
+      year: (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.usePage)().props.value.song.year,
+      lyrics: (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.usePage)().props.value.song.lyrics
+    });
 
     var toggleEditMode = function toggleEditMode() {
       // if the user was editing
       // we need to go back to the inital state values for the lyrics!
-      if (isEditing) editor.pasteHTML(lyrics.value, 'api');
+      if (isEditing) {
+        editor.pasteHTML(lyrics.value, 'api');
+        form.reset();
+      }
+
       isEditing.value = !isEditing.value;
       editor.enable(isEditing.value);
     };
 
     var getEditor = function getEditor(quill) {
       editor = quill;
-      editor.enable(false);
-      lyrics.value = editor.root.innerHTML; // initiate state value in order to easily go back
+      editor.enable(false); // initiate state value in order to easily go back
+
+      lyrics.value = editor.root.innerHTML;
     };
 
     var sendModifications = function sendModifications(sid) {
       // if the user clicked on the save button
       // I transform simple spaces into unbreakable, in order to keep the real spaces between chords
-      lyrics.value = editor.root.innerHTML.replace(/  /g, " &nbsp;"); // then we need to send all the new data to the backend!
+      form.lyrics = editor.root.innerHTML.replace(/  /g, " &nbsp;"); // then we need to send all the new data to the backend!
 
       console.log('sending data...');
-      axios__WEBPACK_IMPORTED_MODULE_6___default().post('/songs/' + sid + '/edit', {
-        id: sid,
-        lyrics: lyrics.value
-      }).then(function (response) {
-        isEditing.value = false;
-        editor.enable(false);
-      })["catch"](function (errors) {
-        console.log(errors);
+      console.log(form);
+      form.post('/songs/' + sid + '/edit', {
+        onSuccess: function onSuccess(response) {
+          isEditing.value = false;
+          editor.enable(false);
+        }
       });
     };
 
@@ -22798,6 +22807,7 @@ __webpack_require__.r(__webpack_exports__);
       isEditing: isEditing,
       lyrics: lyrics,
       editor: editor,
+      form: form,
       toggleEditMode: toggleEditMode,
       getEditor: getEditor,
       sendModifications: sendModifications,
@@ -22807,6 +22817,7 @@ __webpack_require__.r(__webpack_exports__);
       Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Head,
       Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link,
       usePage: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.usePage,
+      useForm: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm,
       BreezeAuthenticatedLayout: _Layouts_Authenticated_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
       TagSmallButton: _Components_TagSmallButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
       QuillEditor: _vueup_vue_quill__WEBPACK_IMPORTED_MODULE_4__.QuillEditor,
@@ -24234,6 +24245,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _img_cancel_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../img/cancel.png */ "./resources/img/cancel.png");
+/* harmony import */ var _img_edit_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../img/edit.png */ "./resources/img/edit.png");
+
+
 
 
 var _withScopeId = function _withScopeId(n) {
@@ -24244,38 +24259,56 @@ var _hoisted_1 = {
   "class": "title"
 };
 var _hoisted_2 = {
-  "class": "song-details"
-};
-var _hoisted_3 = {
-  key: 0
-};
-var _hoisted_4 = {
   key: 1
 };
+var _hoisted_3 = {
+  key: 0,
+  "class": "song-details editing"
+};
+var _hoisted_4 = {
+  key: 1,
+  "class": "song-details"
+};
 var _hoisted_5 = {
+  key: 0,
+  "class": "cancel",
+  src: _img_cancel_png__WEBPACK_IMPORTED_MODULE_1__["default"],
+  alt: "Annuler",
+  width: "2em",
+  height: "2em"
+};
+var _hoisted_6 = {
+  key: 1,
+  "class": "edit",
+  src: _img_edit_png__WEBPACK_IMPORTED_MODULE_2__["default"],
+  alt: "Éditer",
+  width: "2em",
+  height: "2em"
+};
+var _hoisted_7 = {
   "class": "tags subpart"
 };
 
-var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_8 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Classeurs :", -1
   /* HOISTED */
   );
 });
 
-var _hoisted_7 = {
+var _hoisted_9 = {
   "class": "taglist"
 };
-var _hoisted_8 = {
+var _hoisted_10 = {
   "class": "lyrics"
 };
 
-var _hoisted_9 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_11 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Enregistrer", -1
   /* HOISTED */
   );
 });
 
-var _hoisted_10 = [_hoisted_9];
+var _hoisted_12 = [_hoisted_11];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], {
     title: $props.song.title
@@ -24283,16 +24316,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["title"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["BreezeAuthenticatedLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.title), 1
-      /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.artist.name) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.year), 1
-      /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" edit button "), $setup.user.id == $props.song.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, [$setup.isEditing ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
         key: 0,
-        onClick: _cache[0] || (_cache[0] = function ($event) {
-          return $setup.toggleEditMode();
+        type: "text",
+        name: "title",
+        "class": "titleEdit",
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+          return $setup.form.title = $event;
         })
-      }, [$setup.isEditing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_3, "Cancel!")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, "Edit!"))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.song.tags, function (tag) {
+      }, null, 512
+      /* NEED_PATCH */
+      )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.title]]) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.title), 1
+      /* TEXT */
+      ))]), $setup.isEditing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "text",
+        name: "artist",
+        "class": "artistEdit",
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+          return $setup.form.artist = $event;
+        })
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.artist]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "text",
+        name: "year",
+        "class": "yearEdit",
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          return $setup.form.year = $event;
+        })
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.year]])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.artist.name) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.year), 1
+      /* TEXT */
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" edit button "), $setup.user.id == $props.song.user_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+        key: 2,
+        onClick: _cache[3] || (_cache[3] = function ($event) {
+          return $setup.toggleEditMode();
+        }),
+        "class": "editAction"
+      }, [$setup.isEditing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_5)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_6))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.song.tags, function (tag) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["TagSmallButton"], {
           key: tag.id,
           tag: tag
@@ -24301,7 +24363,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         , ["tag"]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" bouton \"+\" (ajout tag existant [search] ou nouveau [form]) ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["QuillEditor"], {
+      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" bouton \"+\" (ajout tag existant [search] ou nouveau [form]) ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["QuillEditor"], {
         theme: "bubble",
         toolbar: "essential",
         contentType: "html",
@@ -24310,12 +24372,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onReady: $setup.getEditor
       }, null, 8
       /* PROPS */
-      , ["content"])]), $setup.isEditing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      , ["content"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+        name: "lyrics",
+        style: {
+          "display": "none"
+        },
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          return $setup.form.lyrics = $event;
+        })
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.lyrics]])]), $setup.isEditing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
         key: 0,
-        onClick: _cache[1] || (_cache[1] = function ($event) {
+        onClick: _cache[5] || (_cache[5] = function ($event) {
           return $setup.sendModifications($props.song.id);
         })
-      }, _hoisted_10)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      }, _hoisted_12)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1
     /* STABLE */
@@ -26630,7 +26702,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hug[data-v-097ba13b] {\n    font-style: italic;\n    margin: 2em 0 .2em;\n}\n.auth-links[data-v-097ba13b] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n    font-size: .8em;\n}\nsection[data-v-097ba13b] {\n    margin-bottom: 2em;\n    display: flex;\n    flex-direction: column;\n}\n.search[data-v-097ba13b] {\n    margin-top: 2em;\n}\n.search-form[data-v-097ba13b] {\n    font-style: italic;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hug[data-v-097ba13b] {\n    font-style: italic;\n    margin: 2em 0 .2em;\n}\n.auth-links[data-v-097ba13b] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n    font-size: .8em;\n}\n.auth-links button[data-v-097ba13b] {\n    width: auto;\n}\nsection[data-v-097ba13b] {\n    margin-bottom: 2em;\n    display: flex;\n    flex-direction: column;\n}\n.search[data-v-097ba13b] {\n    margin-top: 2em;\n}\n.search-form[data-v-097ba13b] {\n    font-style: italic;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -26654,7 +26726,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.taglist[data-v-3a3c4c84] {\n    padding: 0;\n    display: flex;\n    margin-top: 0;\n}\n.title[data-v-3a3c4c84] {\n    margin-bottom: 2em;\n}\n.title h2[data-v-3a3c4c84] {\n    margin-bottom: .1em;\n}\n.title .song-details[data-v-3a3c4c84] {\n    font-weight: lighter;\n    font-style: italic;\n    margin: 0;\n    font-size: .9em;\n}\n.lyrics[data-v-3a3c4c84] {\n    margin-top: 3em;\n    white-space: pre-wrap;\n}\n.ql-toolbar[data-v-3a3c4c84] {\n    white-space: normal;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.taglist[data-v-3a3c4c84] {\n    padding: 0;\n    display: flex;\n    margin-top: 0;\n}\n.title[data-v-3a3c4c84] {\n    margin-bottom: 2em;\n}\n.title h2[data-v-3a3c4c84] {\n    margin-bottom: .1em;\n}\n.title .song-details[data-v-3a3c4c84] {\n    font-weight: lighter;\n    font-style: italic;\n    margin: 0;\n    font-size: .9em;\n}\n.editAction[data-v-3a3c4c84] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.editAction img[data-v-3a3c4c84] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3a3c4c84] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.titleEdit[data-v-3a3c4c84], .artistEdit[data-v-3a3c4c84], .yearEdit[data-v-3a3c4c84] {\n    width: 100%;\n}\n.artistEdit[data-v-3a3c4c84] {\n    margin-right: .5em;\n}\n.lyrics[data-v-3a3c4c84] {\n    margin-top: 3em;\n    white-space: pre-wrap;\n}\n@media screen and (max-width: 768px) {\n.titleEdit[data-v-3a3c4c84], .artistEdit[data-v-3a3c4c84], .yearEdit[data-v-3a3c4c84] {\n        width: 8em;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -26878,6 +26950,36 @@ var deepmerge_1 = deepmerge;
 
 module.exports = deepmerge_1;
 
+
+/***/ }),
+
+/***/ "./resources/img/cancel.png":
+/*!**********************************!*\
+  !*** ./resources/img/cancel.png ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/cancel.png?3cee5bfa0f8f78891496a6e9f6357ff2");
+
+/***/ }),
+
+/***/ "./resources/img/edit.png":
+/*!********************************!*\
+  !*** ./resources/img/edit.png ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/edit.png?5391cad1a673855c0253fa3e5574459f");
 
 /***/ }),
 
