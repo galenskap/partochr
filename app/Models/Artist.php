@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Artist extends Model
 {
     use HasFactory;
+
+    /**
+     * Get all the songs belonging to this artist.
+     */
+    public function songs()
+    {
+        return $this->hasMany(Song::class);
+    }
 }

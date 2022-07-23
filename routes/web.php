@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\ArtistsController;
 use App\Http\Controllers\SongsController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\UserController;
@@ -29,12 +30,22 @@ Route::post('songs/new', [SongsController::class, 'newSongCreate'])->middleware(
 Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth', 'verified'])->name('songpage');
 // song edition
 Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
+// show all songs
+Route::get('songs', [SongsController::class, 'list'])->middleware(['auth', 'verified'])->name('songlist');
 
 // TAGS
 // show specific tag page
 Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
+// show all tags
+Route::get('tags', [TagsController::class, 'list'])->middleware(['auth', 'verified'])->name('taglist');
+
+// ARTISTS
+// show specific artist page
+Route::get('artists/{artist}', [ArtistsController::class, 'show'])->middleware(['auth', 'verified'])->name('artistpage');
+// show all artists
+Route::get('artists', [ArtistsController::class, 'list'])->middleware(['auth', 'verified'])->name('artistlist');
 
 // API
-Route::post('search-artist', [SongsController::class, 'suggestArtistName'])-> middleware(['auth', 'verified'])->name('artistsuggestion');
+Route::post('search-artist', [ArtistsController::class, 'suggestArtistName'])-> middleware(['auth', 'verified'])->name('artistsuggestion');
 
 require __DIR__.'/auth.php';

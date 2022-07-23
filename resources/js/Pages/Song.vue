@@ -102,7 +102,7 @@ const chooseArtist = (event) => {
 
                 <input type="text" name="year" class="yearEdit" v-model="form.year" />
             </div>
-            <p v-else class="song-details">{{ song.artist.name }}, {{ song.year }}</p>
+            <p v-else class="song-details"><Link :href="'/artists/'+song.artist.id">{{ song.artist.name }}</Link>{{ song.year ? ", "+song.year : "" }}</p>
             <!-- edit button -->
             <button v-if="user.id == song.user_id" @click="toggleEditMode()" class="editAction">
                 <img v-if="isEditing" class="cancel" src="../../img/cancel.png" alt="Annuler" width="2em" height="2em" />

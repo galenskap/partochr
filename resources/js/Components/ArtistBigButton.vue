@@ -2,21 +2,21 @@
 import { Link } from '@inertiajs/inertia-vue3';
 
 defineProps({
-    tag: {
+    artist: {
         type: Object,
     },
 });
 </script>
 
 <template>
-    <Link :href="'/tags/'+tag.id" class="tag-big-button">
-        <span class="name">{{ tag.name }}</span>
-        <span class="nb-songs">{{ tag.songs_count }} {{ tag.songs_count > 1 ? "chansons" : "chanson" }}</span>
+    <Link :href="'/artists/'+artist.id" class="artist-big-button">
+        <span class="name">{{ artist.name }}</span>
+        <span class="nb-songs">{{ artist.songs_count }} {{ artist.songs_count > 1 ? "chansons" : "chanson" }}</span>
     </Link>
 </template>
 
 <style scoped>
-    .tag-big-button {
+    .artist-big-button {
         display: flex;
         flex-direction: column;
         padding: 0.5em 1em;
@@ -28,7 +28,7 @@ defineProps({
         transition: ease-in-out .2s;
         text-decoration: none;
     }
-    .tag-big-button:hover {
+    .artist-big-button:hover {
         opacity: .8;
         transition: ease-in-out .2s;
     }

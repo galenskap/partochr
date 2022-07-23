@@ -76,12 +76,13 @@ class SongsController extends Controller
         return Redirect::route('songpage', $song);
     }
 
-    public function suggestArtistName(Request $request) {
-        //search for similar name
-        $artists = Artist::where('name', 'LIKE', '%'.$request->search.'%')->get();
-        return response()->json(array(
-            'code' => 200,
-            'artists' => $artists,
-        ), 200);
+    public function list()
+    {
+        // get all songs // no filter, no order by, no pagination yet
+        $songs = Song::all()->load('artist'); // add artist loading
+
+        return Inertia::render('SongList', [
+            'songs' => $songs,
+        ]);
     }
 }

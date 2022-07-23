@@ -9,33 +9,29 @@ defineProps({
 </script>
 
 <template>
-    <Link :href="'/songs/'+song.id" class="song-big-button">
+    <Link :href="'/songs/'+song.id" class="song-small-button">
         <span class="name">{{ song.title }}</span>
-        <span class="details">{{ song.artist.name }}{{ song.year ? ", "+song.year : "" }}</span>
     </Link>
 </template>
 
 <style scoped>
-    .song-big-button {
+    .song-small-button {
         display: flex;
-        flex-direction: column;
-        padding: 0.5em 1em;
+        padding: .25em .25em;
         border-radius: 3px;
         background-color: var(--songColor);
-        color: var(--white);
+        color: var(--darkThemeBg);
         cursor: pointer;
         margin-bottom: .5em;
         transition: ease-in-out .2s;
         text-decoration: none;
+        margin-right: .5em;
     }
-    .song-big-button:hover {
+    .song-small-button:hover {
         opacity: .8;
         transition: ease-in-out .2s;
     }
     .name {
-        font-size: 1em;
-    }
-    .details {
-        font-size: .8em;
+        font-size: .7em;
     }
 </style>
