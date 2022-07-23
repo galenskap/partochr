@@ -3,6 +3,7 @@ import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import TagBigButton from '@/Components/TagBigButton.vue';
 import SongBigButton from '@/Components/SongBigButton.vue';
+import PlusButton from '@/Components/PlusButton.vue';
 
 defineProps(['tags', 'songs']);
 </script>
@@ -22,23 +23,37 @@ defineProps(['tags', 'songs']);
             </ul>
         </div>
 
-
-        <section class="search">
+        <section class="access">
             <h2 class="">
-                Chercher
+                Consulter
             </h2>
-            <input type="text" class="search-form" placeholder="une chanson, un classeur..." />
+            <ul class="access-links">
+                <li>
+                    <Link href="/tags" as="button">Tous les classeurs</Link>
+                </li>
+                <li>
+                    <Link href="/songs" as="button">Toutes les chansons</Link>
+                </li>
+                <li>
+                    <Link href="/artists" as="button">Tous les artistes</Link>
+                </li>
+            </ul>
+
+            <p class="search">
+                <span class="label">ou chercher :</span>
+                <input type="text" class="search-form" placeholder="une chanson, un classeur..." />
+            </p>
         </section>
 
 
         <section class="my-tags">
             <h2 class="">
-                Mes classeurs
+                Classeurs favoris
             </h2>
             <div class="tags">
+                <PlusButton model="tags" />
                 <TagBigButton v-for="tag in tags" :key="tag.id" :tag="tag" />
             </div>
-            <!-- bouton "+" (ajout classeur existant [follow] ou nouveau [form]) -->
         </section>
 
         <section class="my-songs">
@@ -46,10 +61,10 @@ defineProps(['tags', 'songs']);
                 Mes dernières chansons
             </h2>
             <div class="songs">
+                <PlusButton model="songs" />
                 <!-- latest songs links -->
                 <SongBigButton v-for="song in songs" :key="song.id" :song="song" />
             </div>
-            <!-- bouton "+" (ajout nouvelle chanson) -->
         </section>
     </BreezeAuthenticatedLayout>
 </template>
@@ -59,24 +74,32 @@ defineProps(['tags', 'songs']);
     font-style: italic;
     margin: 2em 0 .2em;
 }
-.auth-links {
+.auth-links, .access-links {
     list-style: none;
     padding: 0;
     margin: 0;
     font-size: .8em;
 }
-.auth-links button {
+.auth-links button,
+.access-links button {
     width: auto;
+    margin: 0 .3em .3em 0;
+}
+@media screen and (min-width: 768px) {
+    .auth-links, .access-links {
+        display: flex;
+    }
 }
 section {
     margin-bottom: 2em;
     display: flex;
     flex-direction: column;
 }
-.search {
+.access {
     margin-top: 2em;
 }
 .search-form {
     font-style: italic;
+    width: 100%;
 }
 </style>
