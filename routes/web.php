@@ -38,6 +38,8 @@ Route::get('songs', [SongsController::class, 'list'])->middleware(['auth', 'veri
 Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
 // show all tags
 Route::get('tags', [TagsController::class, 'list'])->middleware(['auth', 'verified'])->name('taglist');
+// search
+Route::post('tags/search', [TagsController::class, 'suggestTagName'])-> middleware(['auth', 'verified'])->name('tagsearch');
 
 // ARTISTS
 // show specific artist page
@@ -46,6 +48,6 @@ Route::get('artists/{artist}', [ArtistsController::class, 'show'])->middleware([
 Route::get('artists', [ArtistsController::class, 'list'])->middleware(['auth', 'verified'])->name('artistlist');
 
 // API
-Route::post('search-artist', [ArtistsController::class, 'suggestArtistName'])-> middleware(['auth', 'verified'])->name('artistsuggestion');
+Route::post('search-artist', [ArtistsController::class, 'suggestArtistName'])->middleware(['auth', 'verified'])->name('artistsuggestion');
 
 require __DIR__.'/auth.php';

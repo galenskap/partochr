@@ -31,4 +31,14 @@ class TagsController extends Controller
             'tags' => $tags,
         ]);
     }
+
+    public function suggestTagName(Request $request)
+    {
+        //search for similar name
+        $tags = Tag::search($request->search)->within('name')->get();
+        return response()->json(array(
+            'code' => 200,
+            'tags' => $tags,
+        ), 200);
+    }
 }

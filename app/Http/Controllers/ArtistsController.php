@@ -36,7 +36,7 @@ class ArtistsController extends Controller
 
     public function suggestArtistName(Request $request) {
         //search for similar name
-        $artists = Artist::where('name', 'LIKE', '%'.$request->search.'%')->get();
+        $artists = Artist::search($request->search)->within('name')->get();
         return response()->json(array(
             'code' => 200,
             'artists' => $artists,
