@@ -1,7 +1,7 @@
 <script setup>
 import { Link } from '@inertiajs/inertia-vue3';
 
-defineProps({
+const props = defineProps({
     tag: {
         type: Object,
     },
