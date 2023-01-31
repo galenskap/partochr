@@ -50,7 +50,7 @@ class User extends Authenticatable
      */
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'user_tag')->using(UserTag::class);
+        return $this->belongsToMany(Tag::class, 'user_tag');
     }
 
     /**

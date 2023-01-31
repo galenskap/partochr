@@ -25,7 +25,7 @@ class Tag extends Model
      */
     public function songs()
     {
-        return $this->belongsToMany(Song::class, 'song_tag')->using(SongTag::class);
+        return $this->belongsToMany(Song::class, 'song_tag');
     }
 
     /**
@@ -33,7 +33,7 @@ class Tag extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_tag')->using(UserTag::class);
+        return $this->belongsToMany(User::class, 'user_tag');
     }
 
     /**
