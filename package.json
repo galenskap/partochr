@@ -26,6 +26,7 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
-        "@vueup/vue-quill": "^1.0.0-beta.8"
+        "@vueup/vue-quill": "^1.0.0-beta.8",
+        "vue-universal-modal": "^1.1.4"
     }
 }

@@ -144,15 +144,15 @@ label {
     margin: 0;
     list-style: none;
     background: rgba(255, 255, 255, .8);
-    color: black;
+    color: var(--songColor);
     border: 1px solid var(--songColor);
     position: relative;
     top: -.5em;
     box-sizing: border-box;
 }
 .searchresults li {
-    font-size: .7em;
-    padding: .2em .5em;
+    font-size: .8em;
+    padding: .5em .8em;
     font-style: italic;
     cursor: pointer;
 }

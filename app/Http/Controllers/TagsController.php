@@ -34,8 +34,8 @@ class TagsController extends Controller
 
     public function suggestTagName(Request $request)
     {
-        //search for similar name
-        $tags = Tag::search($request->search)->within('name')->get();
+        // search for similar name
+        $tags = Tag::search($request->search)->within('name')->get()->load('songs');
         return response()->json(array(
             'code' => 200,
             'tags' => $tags,

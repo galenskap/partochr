@@ -85,4 +85,25 @@ class SongsController extends Controller
             'songs' => $songs,
         ]);
     }
+
+    // Add or remove tag for given song
+    public function updateTag(Song $song, Request $request)
+    {
+        $tag = $request->tag;
+        // is given tag already in relationship with current song?
+        if ($song->hasTag($tag)) {
+            $song->tags()->detach($tag);
+        } else {
+            $song->tags()->attach($tag);
+        }
+
+        // reload object
+        $song->load('tags');
+
+        // return updated tags list for given song
+        return response()->json(array(
+            'code' => 200,
+            'tags' => $song->tags,
+        ), 200);
+    }
 }

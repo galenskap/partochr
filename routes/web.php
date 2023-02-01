@@ -32,6 +32,8 @@ Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth'
 Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
 // show all songs
 Route::get('songs', [SongsController::class, 'list'])->middleware(['auth', 'verified'])->name('songlist');
+// add or remove tag to song
+Route::post('songs/{song}/tags/update', [SongsController::class, 'updateTag'])->middleware(['auth', 'verified'])->name('songtag-update');
 
 // TAGS
 // show specific tag page
@@ -39,7 +41,7 @@ Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', '
 // show all tags
 Route::get('tags', [TagsController::class, 'list'])->middleware(['auth', 'verified'])->name('taglist');
 // search
-Route::post('tags/search', [TagsController::class, 'suggestTagName'])-> middleware(['auth', 'verified'])->name('tagsearch');
+Route::post('tags/search', [TagsController::class, 'suggestTagName'])->middleware(['auth', 'verified'])->name('tagsearch');
 
 // ARTISTS
 // show specific artist page

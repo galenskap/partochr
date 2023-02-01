@@ -3,11 +3,16 @@ import { computed, reactive, ref } from "vue";
 import { Head, Link, usePage, useForm } from '@inertiajs/inertia-vue3';
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import TagSmallButton from '@/Components/TagSmallButton.vue';
+import PlusTagButtonModal from '@/Components/PlusTagButtonModal.vue';
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
 import axios from 'axios';
 
-defineProps(['song']);
+const props = defineProps({
+    song: {
+        type: Object,
+    },
+});
 
 const user = computed(() => usePage().props.value.auth.user);
 let isEditing = ref(false);
@@ -15,10 +20,10 @@ let editor = ref();
 let searchresults = ref();
 
 const form = useForm({
-    title: usePage().props.value.song.title,
-    artist: usePage().props.value.song.artist.name,
-    year: usePage().props.value.song.year,
-    lyrics: usePage().props.value.song.lyrics,
+    title: props.song.title,
+    artist: props.song.artist.name,
+    year: props.song.year,
+    lyrics: props.song.lyrics,
 });
 
 const toggleEditMode = () => {
@@ -113,9 +118,9 @@ const chooseArtist = (event) => {
         <section class="tags subpart">
             <h3>Classeurs :</h3>
             <ul class="taglist">
-                <TagSmallButton v-for="tag in song.tags" :key="tag.id" :tag="tag" />
+                <TagSmallButton v-for="tag in song.tags" :key="tag.id" :tag="tag" :song="song" />
+                <PlusTagButtonModal :song="song" />
             </ul>
-            <!-- bouton "+" (ajout tag existant [search] ou nouveau [form]) -->
         </section>
 
         <section class="lyrics">
@@ -138,10 +143,15 @@ const chooseArtist = (event) => {
 </template>
 
 <style scoped>
+.tags h3 {
+    margin-bottom: 0;
+}
 .taglist {
     padding: 0;
     display: flex;
-    margin-top: 0;
+    flex-wrap: wrap;
+    margin: 0;
+    align-items: center;
 }
 .title {
     margin-bottom: 2em;
@@ -177,7 +187,7 @@ const chooseArtist = (event) => {
     width: 100%;
 }
 .lyrics {
-    margin-top: 3em;
+    margin-top: 1em;
     white-space: pre-wrap;
 }
 

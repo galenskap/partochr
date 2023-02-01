@@ -20,6 +20,13 @@ class Song extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    /**
+     * Check if the song has a given tag
+     */
+    public function hasTag($tag) {
+        return $this->tags->contains($tag);
+    }
+
     public function artist()
     {
         return $this->belongsTo(Artist::class);
