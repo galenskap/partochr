@@ -50,21 +50,21 @@ defineProps(['tags', 'songs']);
             <h2 class="">
                 Classeurs favoris
             </h2>
-            <div class="tags">
+            <ul class="taglist">
                 <PlusButton model="tags" />
-                <TagBigButton v-for="tag in tags" :key="tag.id" :tag="tag" />
-            </div>
+                <TagBigButton :id="tag.id" :tag="tag" :displayFav="false" v-for="tag in tags" :key="tag.id" />
+            </ul>
         </section>
 
         <section class="my-songs">
             <h2 class="">
                 Mes dernières chansons
             </h2>
-            <div class="songs">
+            <ul class="songlist">
                 <PlusButton model="songs" />
                 <!-- latest songs links -->
                 <SongBigButton v-for="song in songs" :key="song.id" :song="song" />
-            </div>
+            </ul>
         </section>
     </BreezeAuthenticatedLayout>
 </template>
@@ -82,8 +82,11 @@ defineProps(['tags', 'songs']);
 }
 .auth-links button,
 .access-links button {
-    width: auto;
     margin: 0 .3em .3em 0;
+}
+.access-links li {
+    flex: 1 1 100%;
+    display: flex;
 }
 @media screen and (min-width: 768px) {
     .auth-links, .access-links {
@@ -101,5 +104,16 @@ section {
 .search-form {
     font-style: italic;
     width: 100%;
+}
+.taglist, .songlist {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+.taglist li, .songlist li {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: .5em;
 }
 </style>

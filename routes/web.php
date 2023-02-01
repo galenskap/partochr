@@ -42,6 +42,9 @@ Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', '
 Route::get('tags', [TagsController::class, 'list'])->middleware(['auth', 'verified'])->name('taglist');
 // search
 Route::post('tags/search', [TagsController::class, 'suggestTagName'])->middleware(['auth', 'verified'])->name('tagsearch');
+// add or remove tag following for current user
+Route::get('tags/{tag}/update-fav', [TagsController::class, 'updateFav'])->middleware(['auth', 'verified'])->name('tagfav');
+
 
 // ARTISTS
 // show specific artist page

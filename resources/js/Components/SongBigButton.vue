@@ -9,10 +9,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <Link :href="'/songs/'+song.id" class="song-big-button">
-        <span class="name">{{ song.title }}</span>
-        <span class="details">{{ song.artist.name }}{{ song.year ? ", "+song.year : "" }}</span>
-    </Link>
+    <li>
+        <Link :href="'/songs/'+song.id" class="song-big-button">
+            <span class="name">{{ song.title }}</span>
+            <span class="details">{{ song.artist.name }}{{ song.year ? ", "+song.year : "" }}</span>
+        </Link>
+    </li>
 </template>
 
 <style scoped>
@@ -27,6 +29,7 @@ const props = defineProps({
         margin-bottom: .5em;
         transition: ease-in-out .2s;
         text-decoration: none;
+        width: 100%;
     }
     .song-big-button:hover {
         opacity: .8;

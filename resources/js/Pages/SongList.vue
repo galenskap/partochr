@@ -16,9 +16,7 @@ defineProps(['songs']);
 
         <section class="songs">
             <ul class="songlist">
-                <li v-for="song in songs" :key="song.id">
-                    <SongBigButton :id="song.id" :song="song" />
-                </li>
+                <SongBigButton v-for="song in songs" :key="song.id" :song="song" />
             </ul>
         </section>
 

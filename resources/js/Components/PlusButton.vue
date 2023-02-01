@@ -9,9 +9,11 @@ let label = (props.model == 'songs') ? "Nouvelle chanson" : "Nouveau classeur";
 </script>
 
 <template>
-    <Link :href="'/'+model+'/new'" class="plus-button">
-        <span class="sign">+ {{ label }}</span>
-    </Link>
+    <li>
+        <Link :href="'/'+model+'/new'" class="plus-button">
+            <span class="sign">+ {{ label }}</span>
+        </Link>
+    </li>
 </template>
 
 <style scoped>
@@ -27,6 +29,7 @@ let label = (props.model == 'songs') ? "Nouvelle chanson" : "Nouveau classeur";
         transition: ease-in-out .2s;
         text-decoration: none;
         text-align: center;
+        width: 100%;
     }
     .plus-button:hover {
         opacity: .8;

@@ -23,6 +23,8 @@ body {
     font-size: 1.3em;
     margin: 0;
 }
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
+
 .font-mono {
     font-family: 'Roboto Mono', monospace;
 }

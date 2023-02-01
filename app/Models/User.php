@@ -60,11 +60,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Song::class);
     }
+
     /**
      * Latest songs that the user has modified.
      */
     public function latestSongs()
     {
         return $this->hasMany(Song::class)->latest('updated_at')->limit(5);
+    }
+
+    /**
+     * Check if the user is following a given tag
+     */
+    public function hasTag($tag)
+    {
+        return $this->tags->contains($tag);
     }
 }

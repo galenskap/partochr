@@ -16,9 +16,7 @@ defineProps(['tags']);
 
         <section class="tags">
             <ul class="taglist">
-                <li v-for="tag in tags" :key="tag.id">
-                    <TagBigButton :id="tag.id" :tag="tag" />
-                </li>
+                <TagBigButton :tag="tag" :displayFav="true" v-for="tag in tags" :key="tag.id" />
             </ul>
         </section>
 
@@ -29,5 +27,7 @@ defineProps(['tags']);
 .taglist {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 </style>

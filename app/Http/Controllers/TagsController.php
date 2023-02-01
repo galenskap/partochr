@@ -6,6 +6,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class TagsController extends Controller
@@ -39,6 +40,26 @@ class TagsController extends Controller
         return response()->json(array(
             'code' => 200,
             'tags' => $tags,
+        ), 200);
+    }
+
+
+    // Add or remove tag for current user
+    public function updateFav(Tag $tag, Request $request)
+    {
+        $user = Auth::user();
+
+        // is given tag already in relationship with current user?
+        if ($user->hasTag($tag)) {
+            $user->tags()->detach($tag);
+        } else {
+            $user->tags()->attach($tag);
+        }
+
+        // return updated tags list for given song
+        return response()->json(array(
+            'code' => 200,
+            'tag' => $tag,
         ), 200);
     }
 }
