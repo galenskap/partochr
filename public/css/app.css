@@ -6,6 +6,7 @@
     --darkGrey: #403d39;
     --lightGrey: #ccc5b9;
     --white: #fffcf2;
+    --danger: #c12f2f;
 }
 .theme-dark {
     --bg-color: var(--darkThemeBg);

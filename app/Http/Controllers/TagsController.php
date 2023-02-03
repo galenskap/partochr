@@ -64,6 +64,16 @@ class TagsController extends Controller
         return Redirect::route('tagpage', $tag);
     }
 
+    public function delete(Tag $tag, Request $request)
+    {
+        $tag->delete();
+
+        return response()->json(array(
+            'code' => 200,
+            'message' => 'Le classeur a bien été supprimé.',
+        ), 200);
+    }
+
     public function suggestTagName(Request $request)
     {
         // search for similar name

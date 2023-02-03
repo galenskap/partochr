@@ -1,3 +1,7 @@
+import { createToast } from "mosha-vue-toastify";
+import 'mosha-vue-toastify/dist/style.css';
+
+
 window._ = require('lodash');
 
 /**
@@ -26,3 +30,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/**
+ * Get the same look and behaviour for every toast
+ */
+window.toast = (message, type = "danger") => {
+    createToast(
+        message,
+        {
+            type: type,
+            transition: 'zoom',
+        }
+    );
+}

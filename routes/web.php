@@ -34,6 +34,8 @@ Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth'
 Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
 // add or remove tag to song
 Route::post('songs/{song}/tags/update', [SongsController::class, 'updateTag'])->middleware(['auth', 'verified'])->name('songtag-update');
+// delete song
+Route::delete('songs/{song}', [SongsController::class, 'delete'])->middleware(['auth', 'verified'])->name('songdeletion');
 
 // TAGS
 // tag creation
@@ -48,7 +50,9 @@ Route::post('tags/{tag}/edit', [TagsController::class, 'edit'])->middleware(['au
 // search
 Route::post('tags/search', [TagsController::class, 'suggestTagName'])->middleware(['auth', 'verified'])->name('tagsearch');
 // add or remove tag following for current user
-Route::get('tags/{tag}/users/update', [TagsController::class, 'updateFav'])->middleware(['auth', 'verified'])->name('tagfav');
+Route::post('tags/{tag}/users/update', [TagsController::class, 'updateFav'])->middleware(['auth', 'verified'])->name('tagfav');
+// delete tag
+Route::delete('tags/{tag}', [TagsController::class, 'delete'])->middleware(['auth', 'verified'])->name('tagdeletion');
 
 
 // ARTISTS
@@ -56,7 +60,11 @@ Route::get('tags/{tag}/users/update', [TagsController::class, 'updateFav'])->mid
 Route::get('artists', [ArtistsController::class, 'list'])->middleware(['auth', 'verified'])->name('artistlist');
 // show specific artist page
 Route::get('artists/{artist}', [ArtistsController::class, 'show'])->middleware(['auth', 'verified'])->name('artistpage');
+// artist edition
+Route::post('artists/{artist}/edit', [ArtistsController::class, 'edit'])->middleware(['auth', 'verified'])->name('artistedition');
 // API
 Route::post('artists/search', [ArtistsController::class, 'suggestArtistName'])->middleware(['auth', 'verified'])->name('artistsuggestion');
+// delete artist
+Route::delete('artists/{artist}', [ArtistsController::class, 'delete'])->middleware(['auth', 'verified'])->name('artistdeletion');
 
 require __DIR__.'/auth.php';

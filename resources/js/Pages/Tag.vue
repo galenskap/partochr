@@ -30,14 +30,24 @@ const toggleEditMode = () => {
     isEditing.value = !isEditing.value;
 }
 
-const sendModifications = (sid) => {
-    console.log('sending data...');
+const sendModifications = (tagId) => {
 
-    form.post('/tags/' + sid + '/edit', {
+    form.post('/tags/' + tagId + '/edit', {
         onSuccess: (response) => {
             isEditing.value = false;
         }
     });
+}
+
+const sendDelete = (tagId) => {
+    if (confirm("Voulez-vous vraiment supprimer ce classeur ?")) {
+        axios.delete('/tags/' + tagId)
+            .then((response) => {
+                isEditing.value = false;
+                toast(response.data.message, 'success');
+                window.location = route('home'); // redirect to home
+            });
+    }
 }
 </script>
 
@@ -59,9 +69,14 @@ const sendModifications = (sid) => {
             </button>
         </section>
 
-        <button v-if="isEditing" @click="sendModifications(tag.id)" class="send">
-            <span>Enregistrer</span>
-        </button>
+        <div class="actions" v-if="isEditing">
+            <button @click="sendModifications(tag.id)" class="send">
+                <span>Enregistrer</span>
+            </button>
+            <button @click="sendDelete(tag.id)" class="remove">
+                <span>Supprimer</span>
+            </button>
+        </div>
 
 
         <section class="songs">
@@ -89,7 +104,9 @@ const sendModifications = (sid) => {
     right: .5em;
     top: 3em;
 }
-
+.actions {
+    display: flex;
+}
 .editAction img {
     width: 2em;
     height: 2em;
@@ -101,6 +118,18 @@ const sendModifications = (sid) => {
     right: .2em;
     width: 1.9em;
     height: 1.9em;
+}
+.actions .send {
+    width: 100%;
+    margin-right: .5em;
+}
+.actions .remove:hover {
+    background: var(--danger);
+}
+
+.actions .remove {
+    width: 100%;
+    margin-left: .5em;
 }
 
 @media screen and (max-width: 768px) {
