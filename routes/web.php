@@ -24,22 +24,27 @@ Route::get('/', [UserController::class, 'dashboard'])->middleware(['auth', 'veri
 
 // SONGS
 // song creation
+Route::get('songs/new', [SongsController::class, 'newSongPage'])->middleware(['auth', 'verified'])->name('new-song-page');
+Route::post('songs/new', [SongsController::class, 'newSongCreate'])->middleware(['auth', 'verified'])->name('new-song-create');
 // show all songs
 Route::get('songs', [SongsController::class, 'list'])->middleware(['auth', 'verified'])->name('songlist');
 // show specific song page
 Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth', 'verified'])->name('songpage');
-Route::get('songs/new', [SongsController::class, 'newSongPage'])->middleware(['auth', 'verified'])->name('new-song-page');
-Route::post('songs/new', [SongsController::class, 'newSongCreate'])->middleware(['auth', 'verified'])->name('new-song-create');
 // song edition
 Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
 // add or remove tag to song
 Route::post('songs/{song}/tags/update', [SongsController::class, 'updateTag'])->middleware(['auth', 'verified'])->name('songtag-update');
 
 // TAGS
+// tag creation
+Route::get('tags/new', [TagsController::class, 'newTagPage'])->middleware(['auth', 'verified'])->name('new-tag-page');
+Route::post('tags/new', [TagsController::class, 'newTagCreate'])->middleware(['auth', 'verified'])->name('new-tag-create');
 // show all tags
 Route::get('tags', [TagsController::class, 'list'])->middleware(['auth', 'verified'])->name('taglist');
 // show specific tag page
 Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
+// tag edition
+Route::post('tags/{tag}/edit', [TagsController::class, 'edit'])->middleware(['auth', 'verified'])->name('tagedition');
 // search
 Route::post('tags/search', [TagsController::class, 'suggestTagName'])->middleware(['auth', 'verified'])->name('tagsearch');
 // add or remove tag following for current user

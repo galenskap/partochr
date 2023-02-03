@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Tag;
-use App\Models\UserTag;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;

@@ -7,6 +7,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 
 class TagsController extends Controller
@@ -31,6 +32,36 @@ class TagsController extends Controller
         return Inertia::render('TagList', [
             'tags' => $tags,
         ]);
+    }
+
+    public function newTagPage(Request $request)
+    {
+        return Inertia::render('NewTag');
+    }
+
+    public function newTagCreate(Request $request)
+    {
+        $tag = new Tag;
+        $tag->name = $request->name;
+        // in V1, all the tags created are automatically public
+        // later version may change this (if we want the possibility to have tags that can only be seen by they owners)
+        // but the "owning" relationship does not exists so far.
+
+        $tag->save();
+
+        // automatically add the created tag to the user's followed tags
+        $user = Auth::user();
+        $user->tags()->attach($tag);
+
+        return Redirect::route('tagpage', $tag);
+    }
+
+    public function edit(Tag $tag, Request $request)
+    {
+        $tag->name = $request->name;
+        $tag->save();
+
+        return Redirect::route('tagpage', $tag);
     }
 
     public function suggestTagName(Request $request)
