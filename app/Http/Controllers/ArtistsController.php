@@ -34,6 +34,24 @@ class ArtistsController extends Controller
         ]);
     }
 
+    public function edit(Artist $artist, Request $request)
+    {
+        $artist->name = $request->name;
+        $artist->save();
+
+        return Redirect::route('artistpage', $artist);
+    }
+
+    public function delete(Artist $artist)
+    {
+        $artist->delete();
+
+        return response()->json(array(
+            'code' => 200,
+            'message' => "L'artiste a bien été supprimé.",
+        ), 200);
+    }
+
     public function suggestArtistName(Request $request) {
         //search for similar name
         $artists = Artist::search($request->search)->within('name')->get();

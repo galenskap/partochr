@@ -61,6 +61,17 @@ const sendModifications = (sid) => {
     });
 }
 
+const sendDelete = (songId) => {
+    if (confirm("Voulez-vous vraiment supprimer cette chanson ?")) {
+        axios.delete('/songs/' + songId)
+            .then((response) => {
+                isEditing.value = false;
+                toast(response.data.message, 'success');
+                window.location = route('home'); // redirect to home
+            });
+    }
+}
+
 const autocomplete = (event) => {
     let searchterm = event.target.value;
     if (searchterm.length > 2) {
@@ -118,8 +129,8 @@ const chooseArtist = (event) => {
         <section class="tags subpart">
             <h3>Classeurs :</h3>
             <ul class="taglist">
-                <TagSmallButton v-for="tag in song.tags" :key="tag.id" :tag="tag" :song="song" />
-                <PlusTagButtonModal :song="song" />
+                <TagSmallButton v-for="tag in song.tags" :key="tag.id" :tag="tag" :song="song" :isEditing="isEditing" />
+                <PlusTagButtonModal v-if="isEditing" :song="song" />
             </ul>
         </section>
 
@@ -135,9 +146,14 @@ const chooseArtist = (event) => {
             <textarea name="lyrics" style="display:none" v-model="form.lyrics"></textarea>
         </section>
 
-        <button v-if="isEditing" @click="sendModifications(song.id)">
-            <span>Enregistrer</span>
-        </button>
+        <div class="actions" v-if="isEditing">
+            <button @click="sendModifications(song.id)" class="send">
+                <span>Enregistrer</span>
+            </button>
+            <button @click="sendDelete(song.id)" class="remove">
+                <span>Supprimer</span>
+            </button>
+        </div>
 
     </BreezeAuthenticatedLayout>
 </template>
@@ -186,6 +202,22 @@ const chooseArtist = (event) => {
 .titleEdit, .artistEdit, .yearEdit, .searchresults {
     width: 100%;
 }
+
+.actions {
+    display: flex;
+}
+.actions .send {
+    width: 100%;
+    margin-right: .5em;
+}
+.actions .remove {
+    width: 100%;
+    margin-left: .5em;
+}
+.actions .remove:hover {
+    background: var(--danger);
+}
+
 .lyrics {
     margin-top: 1em;
     white-space: pre-wrap;

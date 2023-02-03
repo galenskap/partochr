@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 const updateTagFav = () => {
-    axios.get('/tags/'+props.tag.id+'/users/update', {
+    axios.post('/tags/'+props.tag.id+'/users/update', {
         tag: props.tag.id,
     })
     .then(function (response) {

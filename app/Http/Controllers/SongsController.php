@@ -86,6 +86,16 @@ class SongsController extends Controller
         ]);
     }
 
+    public function delete(Song $song)
+    {
+        $song->delete();
+
+        return response()->json(array(
+            'code' => 200,
+            'message' => 'La chanson a bien été supprimée.',
+        ), 200);
+    }
+
     // Add or remove tag for given song
     public function updateTag(Song $song, Request $request)
     {
