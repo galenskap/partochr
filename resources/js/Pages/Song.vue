@@ -64,7 +64,7 @@ const sendModifications = (sid) => {
 const autocomplete = (event) => {
     let searchterm = event.target.value;
     if (searchterm.length > 2) {
-        axios.post('/search-artist', {
+        axios.post('/artists/search', {
             search: searchterm,
         })
         .then(function (response) {

@@ -22377,7 +22377,7 @@ __webpack_require__.r(__webpack_exports__);
     var props = __props;
 
     var updateTagFav = function updateTagFav() {
-      axios.get('/tags/' + props.tag.id + '/update-fav', {
+      axios.get('/tags/' + props.tag.id + '/users/update', {
         tag: props.tag.id
       }).then(function (response) {
         // get current tag from response and update local store data
@@ -23169,7 +23169,7 @@ __webpack_require__.r(__webpack_exports__);
       var searchterm = event.target.value;
 
       if (searchterm.length > 2) {
-        axios__WEBPACK_IMPORTED_MODULE_6___default().post('/search-artist', {
+        axios__WEBPACK_IMPORTED_MODULE_6___default().post('/artists/search', {
           search: searchterm
         }).then(function (response) {
           searchresults.value = response.data.artists;
@@ -23311,7 +23311,7 @@ __webpack_require__.r(__webpack_exports__);
       var searchterm = event.target.value;
 
       if (searchterm.length > 2) {
-        axios__WEBPACK_IMPORTED_MODULE_7___default().post('/search-artist', {
+        axios__WEBPACK_IMPORTED_MODULE_7___default().post('/artists/search', {
           search: searchterm
         }).then(function (response) {
           searchresults.value = response.data.artists;

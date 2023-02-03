@@ -24,35 +24,34 @@ Route::get('/', [UserController::class, 'dashboard'])->middleware(['auth', 'veri
 
 // SONGS
 // song creation
-Route::get('songs/new', [SongsController::class, 'newSongPage'])->middleware(['auth', 'verified'])->name('new-song-page');
-Route::post('songs/new', [SongsController::class, 'newSongCreate'])->middleware(['auth', 'verified'])->name('new-song-create');
-// show specific song page
-Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth', 'verified'])->name('songpage');
-// song edition
-Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
 // show all songs
 Route::get('songs', [SongsController::class, 'list'])->middleware(['auth', 'verified'])->name('songlist');
+// show specific song page
+Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth', 'verified'])->name('songpage');
+Route::get('songs/new', [SongsController::class, 'newSongPage'])->middleware(['auth', 'verified'])->name('new-song-page');
+Route::post('songs/new', [SongsController::class, 'newSongCreate'])->middleware(['auth', 'verified'])->name('new-song-create');
+// song edition
+Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
 // add or remove tag to song
 Route::post('songs/{song}/tags/update', [SongsController::class, 'updateTag'])->middleware(['auth', 'verified'])->name('songtag-update');
 
 // TAGS
-// show specific tag page
-Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
 // show all tags
 Route::get('tags', [TagsController::class, 'list'])->middleware(['auth', 'verified'])->name('taglist');
+// show specific tag page
+Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', 'verified'])->name('tagpage');
 // search
 Route::post('tags/search', [TagsController::class, 'suggestTagName'])->middleware(['auth', 'verified'])->name('tagsearch');
 // add or remove tag following for current user
-Route::get('tags/{tag}/update-fav', [TagsController::class, 'updateFav'])->middleware(['auth', 'verified'])->name('tagfav');
+Route::get('tags/{tag}/users/update', [TagsController::class, 'updateFav'])->middleware(['auth', 'verified'])->name('tagfav');
 
 
 // ARTISTS
-// show specific artist page
-Route::get('artists/{artist}', [ArtistsController::class, 'show'])->middleware(['auth', 'verified'])->name('artistpage');
 // show all artists
 Route::get('artists', [ArtistsController::class, 'list'])->middleware(['auth', 'verified'])->name('artistlist');
-
+// show specific artist page
+Route::get('artists/{artist}', [ArtistsController::class, 'show'])->middleware(['auth', 'verified'])->name('artistpage');
 // API
-Route::post('search-artist', [ArtistsController::class, 'suggestArtistName'])->middleware(['auth', 'verified'])->name('artistsuggestion');
+Route::post('artists/search', [ArtistsController::class, 'suggestArtistName'])->middleware(['auth', 'verified'])->name('artistsuggestion');
 
 require __DIR__.'/auth.php';
