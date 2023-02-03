@@ -1,3 +1,3 @@
 <template>
-    partochr
+    <span>&lt;</span> partochr
 </template>

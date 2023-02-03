@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Tag;
-use App\Models\UserTag;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -50,6 +49,30 @@ class User extends Authenticatable
      */
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'user_tag')->using(UserTag::class);
+        return $this->belongsToMany(Tag::class, 'user_tag');
+    }
+
+    /**
+     * The songs that the user has created.
+     */
+    public function songs()
+    {
+        return $this->hasMany(Song::class);
+    }
+
+    /**
+     * Latest songs that the user has modified.
+     */
+    public function latestSongs()
+    {
+        return $this->hasMany(Song::class)->latest('updated_at')->limit(5);
+    }
+
+    /**
+     * Check if the user is following a given tag
+     */
+    public function hasTag($tag)
+    {
+        return $this->tags->contains($tag);
     }
 }

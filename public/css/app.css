@@ -1,7 +1,7 @@
 /* color theme vars */
 :root {
-    --tagColor: #2f97c1;
-    --songColor: #eb5e28;
+    --songColor: #2f97c1;
+    --tagColor: #eb5e28;
     --darkThemeBg: #252422;
     --darkGrey: #403d39;
     --lightGrey: #ccc5b9;
@@ -19,7 +19,9 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-size: 1.3em;
+    margin: 0;
 }
+* { -ms-box-sizing: border-box; box-sizing: border-box; }
 .font-mono {
     font-family: 'Roboto Mono', monospace;
 }
@@ -32,18 +34,20 @@ body {
 }
 /** Responsive **/
 main {
-    max-width: 1024px;
+    max-width: 728px;
     margin: 0 auto;
+    padding: 1em 1.7em;
 }
 @media screen and (max-width: 768px) {
     .sm-hidden {
         display: none;
     }
 }
-/** default styles */
+/** Default styles **/
+/* links and buttons */
 a {
     text-decoration: underline;
-    color: var(--tagColor);
+    color: var(--songColor);
 }
 button {
     padding: .5em 1em;
@@ -53,10 +57,64 @@ button {
     cursor: pointer;
     background: var(--darkGrey);
     color: var(--white);
+    transition: all .2s ease-in-out;
+    width: 100%;
 }
 button:hover {
-    background: var(--tagColor);
+    background: var(--songColor);
     color: var(--white);
     transition: all .2s ease-in-out;
+}
+h2 {
+    text-transform: uppercase;
+    font-weight: normal;
+    margin: .5em 0;
+    font-size: 1.8em;
+}
+h3 {
+    color: var(--songColor);
+    font-weight: lighter;
+    font-size: 1em;
+    margin: .5em 0;
+}
+/* Forms */
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: .5em;
+}
+label {
+    color: var(--songColor);
+}
+input {
+    padding: .5em;
+    font-size: .8em;
+    margin: .5em 0;
+    border: 2px solid var(--songColor);
+    border-radius: 3px;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+/** QUILL **/
+.ql-container {
+    font-family: 'Roboto Mono', monospace !important;
+    font-size: 1em!important;
+}
+.ql-editor {
+    font-size: .8em;
+    border: 1px solid var(--songColor);
+    padding: 0 .5em;
+    background-color: white;
+    color: var(--darkThemeBg);
+    min-height: 8em;
+}
+.ql-disabled .ql-editor {
+    border: 0;
+    padding: 0;
+    background-color: inherit;
+    color: inherit;
+}
+.ql-toolbar {
+    white-space: normal;
 }
 
