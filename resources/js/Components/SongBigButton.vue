@@ -5,19 +5,34 @@ const props = defineProps({
     song: {
         type: Object,
     },
+    isEditing: {
+        type: Boolean,
+    },
+    chooseSong: {
+        type: Function,
+    }
 });
 </script>
 
 <template>
     <li>
-        <Link :href="'/songs/'+song.id" class="song-big-button">
-            <span class="name">{{ song.title }}</span>
-            <span class="details">{{ song.artist.name }}{{ song.year ? ", "+song.year : "" }}</span>
-        </Link>
+        <div class="container">
+            <Link :href="'/songs/'+song.id" class="song-big-button">
+                <span class="name">{{ song.title }}</span>
+                <span class="details">{{ song.artist.name }}{{ song.year ? ", "+song.year : "" }}</span>
+            </Link>
+            <img class="delete" v-if="isEditing" @click="chooseSong(song, $event)" src="../../img/delete.svg" alt="Supprimer" />
+        </div>
     </li>
 </template>
 
 <style scoped>
+    .songlist .container {
+        width: 100%;
+    }
+    .songs .songlist .container {
+        display: flex;
+    }
     .song-big-button {
         display: flex;
         flex-direction: column;
@@ -40,5 +55,12 @@ const props = defineProps({
     }
     .details {
         font-size: .8em;
+    }
+    .delete {
+        filter: invert(50%) sepia(100%) saturate(320%) hue-rotate(140deg); /*kind of blue*/
+        width: 2em;
+        height: 2em;
+        margin: auto .5em;
+        cursor: pointer;
     }
 </style>

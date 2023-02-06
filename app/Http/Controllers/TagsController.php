@@ -86,7 +86,12 @@ class TagsController extends Controller
     // Add or remove song to given tag
     public function updateSong(Tag $tag, Request $request)
     {
-        $song = Song::find($request->song);
+        // we may have two different formats for the request
+        if ($request["song"]["id"]) {
+            $song = Song::find($request["song"]["id"]);
+        } else {
+            $song = Song::find($request->song);
+        }
 
         // is given tag already in relationship with current song?
         if ($song->hasTag($tag)) {

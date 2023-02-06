@@ -128,10 +128,10 @@ const chooseSong = (songId, event) => {
 
         <section class="songs">
             <ol class="songlist">
-                <SongBigButton v-for="song in tag.songs" :key="song.id" :song="song" />
-            </ol>
+                <SongBigButton v-for="song in tag.songs" :key="song.id" :song="song" :isEditing="isEditing" :chooseSong="chooseSong" />
+                </ol>
 
-            <div class="modal-inner">
+                <div class="modal-inner">
                 <label for="tag">Ajouter une chanson à ce classeur :</label>
                 <input type="text" name="tag" v-model="searchQuery" class="songAdd" @keyup="autocomplete" />
                 <ul v-if="searchresults" class="searchresults">
@@ -162,6 +162,7 @@ const chooseSong = (songId, event) => {
 }
 .actions {
     display: flex;
+    margin-bottom: 3em;
 }
 .editAction img {
     width: 2em;
@@ -188,11 +189,12 @@ const chooseSong = (songId, event) => {
     margin-left: .5em;
 }
 
-.modal-container {
+.modal-inner {
     width: 100%;
+    margin-top: 3em;
 }
 
-.modal-container label {
+.modal-inner label {
     font-size: .8em;
     font-style: italic;
     margin-right: .8em;

@@ -22252,6 +22252,12 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     song: {
       type: Object
+    },
+    isEditing: {
+      type: Boolean
+    },
+    chooseSong: {
+      type: Function
     }
   },
   setup: function setup(__props, _ref) {
@@ -24190,6 +24196,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _img_delete_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../img/delete.svg */ "./resources/img/delete.svg");
+
 
 
 var _withScopeId = function _withScopeId(n) {
@@ -24197,20 +24205,23 @@ var _withScopeId = function _withScopeId(n) {
 };
 
 var _hoisted_1 = {
-  "class": "name"
+  "class": "container"
 };
 var _hoisted_2 = {
+  "class": "name"
+};
+var _hoisted_3 = {
   "class": "details"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
     href: '/songs/' + $props.song.id,
     "class": "song-big-button"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.title), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.title), 1
       /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.artist.name) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.year ? ", " + $props.song.year : ""), 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.artist.name) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.song.year ? ", " + $props.song.year : ""), 1
       /* TEXT */
       )];
     }),
@@ -24219,7 +24230,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href"])]);
+  , ["href"]), $props.isEditing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    key: 0,
+    "class": "delete",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $props.chooseSong($props.song, $event);
+    }),
+    src: _img_delete_svg__WEBPACK_IMPORTED_MODULE_1__["default"],
+    alt: "Supprimer"
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 }
 
 /***/ }),
@@ -26239,10 +26258,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, _hoisted_11)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.tag.songs, function (song) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["SongBigButton"], {
           key: song.id,
-          song: song
+          song: song,
+          isEditing: $setup.isEditing,
+          chooseSong: $setup.chooseSong
         }, null, 8
         /* PROPS */
-        , ["song"]);
+        , ["song", "isEditing"]);
       }), 128
       /* KEYED_FRAGMENT */
       ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -28534,7 +28555,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.song-big-button[data-v-77746c02] {\n        display: flex;\n        flex-direction: column;\n        padding: 0.5em 1em;\n        border-radius: 3px;\n        background-color: var(--songColor);\n        color: var(--white);\n        cursor: pointer;\n        margin-bottom: .5em;\n        transition: ease-in-out .2s;\n        text-decoration: none;\n        width: 100%;\n}\n.song-big-button[data-v-77746c02]:hover {\n        opacity: .8;\n        transition: ease-in-out .2s;\n}\n.name[data-v-77746c02] {\n        font-size: 1em;\n}\n.details[data-v-77746c02] {\n        font-size: .8em;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.songlist .container[data-v-77746c02] {\n        width: 100%;\n}\n.songs .songlist .container[data-v-77746c02] {\n        display: flex;\n}\n.song-big-button[data-v-77746c02] {\n        display: flex;\n        flex-direction: column;\n        padding: 0.5em 1em;\n        border-radius: 3px;\n        background-color: var(--songColor);\n        color: var(--white);\n        cursor: pointer;\n        margin-bottom: .5em;\n        transition: ease-in-out .2s;\n        text-decoration: none;\n        width: 100%;\n}\n.song-big-button[data-v-77746c02]:hover {\n        opacity: .8;\n        transition: ease-in-out .2s;\n}\n.name[data-v-77746c02] {\n        font-size: 1em;\n}\n.details[data-v-77746c02] {\n        font-size: .8em;\n}\n.delete[data-v-77746c02] {\n        filter: invert(50%) sepia(100%) saturate(320%) hue-rotate(140deg); /*kind of blue*/\n        width: 2em;\n        height: 2em;\n        margin: auto .5em;\n        cursor: pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28918,7 +28939,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.title[data-v-3c700afe], .titleEdit-container[data-v-3c700afe] {\n    display: flex;\n    align-items: center;\n}\n.titleEdit-container[data-v-3c700afe], .titleEdit[data-v-3c700afe] {\n    width: 100%;\n}\n.editAction[data-v-3c700afe] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.actions[data-v-3c700afe] {\n    display: flex;\n}\n.editAction img[data-v-3c700afe] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3c700afe] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.actions .send[data-v-3c700afe] {\n    width: 100%;\n    margin-right: .5em;\n}\n.actions .remove[data-v-3c700afe]:hover {\n    background: var(--danger);\n}\n.actions .remove[data-v-3c700afe] {\n    width: 100%;\n    margin-left: .5em;\n}\n.modal-container[data-v-3c700afe] {\n    width: 100%;\n}\n.modal-container label[data-v-3c700afe] {\n    font-size: .8em;\n    font-style: italic;\n    margin-right: .8em;\n}\n.modal-inner .songAdd[data-v-3c700afe] {\n    width: 100%;\n}\n.searchresults[data-v-3c700afe] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n    color: var(--tagColor);\n}\n.searchresults li[data-v-3c700afe] {\n    font-size: .7em;\n    padding: .5em .8em;\n    font-style: italic;\n    cursor: pointer;\n}\n.name[data-v-3c700afe] {\n    font-size: .7em;\n}\n@media screen and (max-width: 768px) {\n.editAction .cancel[data-v-3c700afe] {\n        right: -.9em;\n        top: -1.2em;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.title[data-v-3c700afe], .titleEdit-container[data-v-3c700afe] {\n    display: flex;\n    align-items: center;\n}\n.titleEdit-container[data-v-3c700afe], .titleEdit[data-v-3c700afe] {\n    width: 100%;\n}\n.editAction[data-v-3c700afe] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.actions[data-v-3c700afe] {\n    display: flex;\n    margin-bottom: 3em;\n}\n.editAction img[data-v-3c700afe] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3c700afe] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.actions .send[data-v-3c700afe] {\n    width: 100%;\n    margin-right: .5em;\n}\n.actions .remove[data-v-3c700afe]:hover {\n    background: var(--danger);\n}\n.actions .remove[data-v-3c700afe] {\n    width: 100%;\n    margin-left: .5em;\n}\n.modal-inner[data-v-3c700afe] {\n    width: 100%;\n    margin-top: 3em;\n}\n.modal-inner label[data-v-3c700afe] {\n    font-size: .8em;\n    font-style: italic;\n    margin-right: .8em;\n}\n.modal-inner .songAdd[data-v-3c700afe] {\n    width: 100%;\n}\n.searchresults[data-v-3c700afe] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n    color: var(--tagColor);\n}\n.searchresults li[data-v-3c700afe] {\n    font-size: .7em;\n    padding: .5em .8em;\n    font-style: italic;\n    cursor: pointer;\n}\n.name[data-v-3c700afe] {\n    font-size: .7em;\n}\n@media screen and (max-width: 768px) {\n.editAction .cancel[data-v-3c700afe] {\n        right: -.9em;\n        top: -1.2em;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
