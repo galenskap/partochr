@@ -23558,24 +23558,19 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     tag: {
       type: Object
-    },
-    songs: {
-      type: Array
     }
   },
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
     var props = __props;
+    console.log(props.tag);
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm)({
       name: props.tag.name
     });
     var isEditing = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var searchQuery = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
-    var searchresults = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(); // unfortunately, songs prop is readonly
-
-    var songsUpdatable = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
-    songsUpdatable.value = props.songs;
+    var searchresults = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
 
     var toggleEditMode = function toggleEditMode() {
       // if the user was editing
@@ -23615,7 +23610,7 @@ __webpack_require__.r(__webpack_exports__);
           searchresults.value = new Array(); // Keep only the songs that are not already linked to our tag
 
           response.data.songs.forEach(function (element) {
-            if (!songsUpdatable.value.some(function (song) {
+            if (!props.tag.songs.some(function (song) {
               // do we have any song already in this tag's songs list?
               return element.id === song.id;
             })) {
@@ -23636,10 +23631,7 @@ __webpack_require__.r(__webpack_exports__);
         song: songId
       }).then(function (response) {
         // get current tag's songs from response and update local store data
-        console.log(response.data);
-        songsUpdatable.value = response.data.songs;
-        console.log('songUpdatable', songsUpdatable.value); //console.log('props.songs', props.songs);
-        // empty suggestions
+        props.tag.songs = response.data.songs; // empty suggestions
 
         searchresults.value = null; // empty search field
 
@@ -23655,7 +23647,6 @@ __webpack_require__.r(__webpack_exports__);
       isEditing: isEditing,
       searchQuery: searchQuery,
       searchresults: searchresults,
-      songsUpdatable: songsUpdatable,
       toggleEditMode: toggleEditMode,
       sendModifications: sendModifications,
       sendDelete: sendDelete,
@@ -26245,7 +26236,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $setup.sendDelete($props.tag.id);
         }),
         "class": "remove"
-      }, _hoisted_11)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.songsUpdatable, function (song) {
+      }, _hoisted_11)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.tag.songs, function (song) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["SongBigButton"], {
           key: song.id,
           song: song

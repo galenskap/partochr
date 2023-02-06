@@ -9,10 +9,9 @@ const props = defineProps({
     tag: {
         type: Object,
     },
-    songs: {
-        type: Array,
-    }
 });
+
+console.log(props.tag);
 
 const form = useForm({
     name: props.tag.name,
@@ -21,10 +20,6 @@ const form = useForm({
 let isEditing = ref(false);
 let searchQuery = ref();
 let searchresults = ref();
-
-// unfortunately, songs prop is readonly
-const songsUpdatable = ref('');
-songsUpdatable.value = props.songs;
 
 
 const toggleEditMode = () => {
@@ -67,7 +62,7 @@ const autocomplete = (event) => {
                 searchresults.value = new Array();
                 // Keep only the songs that are not already linked to our tag
                 response.data.songs.forEach(element => {
-                    if (!songsUpdatable.value.some((song) => {
+                    if (!props.tag.songs.some((song) => {
                         // do we have any song already in this tag's songs list?
                         return element.id === song.id;
                     })) {
@@ -91,10 +86,7 @@ const chooseSong = (songId, event) => {
     })
         .then(function (response) {
             // get current tag's songs from response and update local store data
-            console.log(response.data);
-            songsUpdatable.value = response.data.songs;
-            console.log('songUpdatable', songsUpdatable.value);
-            //console.log('props.songs', props.songs);
+            props.tag.songs = response.data.songs;
             // empty suggestions
             searchresults.value = null;
             // empty search field
@@ -136,7 +128,7 @@ const chooseSong = (songId, event) => {
 
         <section class="songs">
             <ol class="songlist">
-                <SongBigButton v-for="song in songsUpdatable" :key="song.id" :song="song" />
+                <SongBigButton v-for="song in tag.songs" :key="song.id" :song="song" />
             </ol>
 
             <div class="modal-inner">

@@ -15,13 +15,11 @@ class TagsController extends Controller
 {
     public function show(Tag $tag)
     {
-        // get songs for this tag
-        $songs = $tag->songs()->get();
-        $songs->load('artist');
+        // get songs and their artists name for this tag
+        $tag->load('songs.artist');
 
         return Inertia::render('Tag', [
             'tag' => $tag,
-            'songs' => $songs,
         ]);
     }
 
