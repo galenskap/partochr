@@ -96,6 +96,16 @@ class SongsController extends Controller
         ), 200);
     }
 
+    public function suggestSongName(Request $request)
+    {
+        // search for similar name
+        $songs = Song::search($request->search)->within('title')->get();
+        return response()->json(array(
+            'code' => 200,
+            'songs' => $songs,
+        ), 200);
+    }
+
     // Add or remove tag for given song
     public function updateTag(Song $song, Request $request)
     {

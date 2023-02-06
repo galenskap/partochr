@@ -23571,6 +23571,11 @@ __webpack_require__.r(__webpack_exports__);
       name: props.tag.name
     });
     var isEditing = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var searchQuery = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
+    var searchresults = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(); // unfortunately, songs prop is readonly
+
+    var songsUpdatable = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    songsUpdatable.value = props.songs;
 
     var toggleEditMode = function toggleEditMode() {
       // if the user was editing
@@ -23600,16 +23605,67 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
 
+    var autocomplete = function autocomplete(event) {
+      var searchterm = event.target.value;
+
+      if (searchterm.length > 2) {
+        axios.post('/songs/search', {
+          search: searchterm
+        }).then(function (response) {
+          searchresults.value = new Array(); // Keep only the songs that are not already linked to our tag
+
+          response.data.songs.forEach(function (element) {
+            if (!songsUpdatable.value.some(function (song) {
+              // do we have any song already in this tag's songs list?
+              return element.id === song.id;
+            })) {
+              searchresults.value.push(element);
+            }
+          });
+        })["catch"](function (errors) {
+          console.log(errors);
+        });
+      } else {
+        // empty suggestions
+        searchresults.value = null;
+      }
+    };
+
+    var chooseSong = function chooseSong(songId, event) {
+      axios.post('/tags/' + props.tag.id + '/songs/update', {
+        song: songId
+      }).then(function (response) {
+        // get current tag's songs from response and update local store data
+        console.log(response.data);
+        songsUpdatable.value = response.data.songs;
+        console.log('songUpdatable', songsUpdatable.value); //console.log('props.songs', props.songs);
+        // empty suggestions
+
+        searchresults.value = null; // empty search field
+
+        searchQuery.value = "";
+      })["catch"](function (errors) {
+        console.log(errors);
+      });
+    };
+
     var __returned__ = {
       props: props,
       form: form,
       isEditing: isEditing,
+      searchQuery: searchQuery,
+      searchresults: searchresults,
+      songsUpdatable: songsUpdatable,
       toggleEditMode: toggleEditMode,
       sendModifications: sendModifications,
       sendDelete: sendDelete,
+      autocomplete: autocomplete,
+      chooseSong: chooseSong,
       computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
       reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
       ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
+      toRef: vue__WEBPACK_IMPORTED_MODULE_0__.toRef,
+      watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
       Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Head,
       Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link,
       usePage: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.usePage,
@@ -26132,6 +26188,26 @@ var _hoisted_12 = {
 var _hoisted_13 = {
   "class": "songlist"
 };
+var _hoisted_14 = {
+  "class": "modal-inner"
+};
+
+var _hoisted_15 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "tag"
+  }, "Ajouter une chanson à ce classeur :", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_16 = {
+  key: 0,
+  "class": "searchresults"
+};
+var _hoisted_17 = ["onClick"];
+var _hoisted_18 = {
+  "class": "songname"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], {
     title: 'Classeur - ' + $props.tag.name
@@ -26169,7 +26245,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $setup.sendDelete($props.tag.id);
         }),
         "class": "remove"
-      }, _hoisted_11)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.songs, function (song) {
+      }, _hoisted_11)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ol", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.songsUpdatable, function (song) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["SongBigButton"], {
           key: song.id,
           song: song
@@ -26178,7 +26254,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         , ["song"]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" bouton \"+\" (ajout chanson existante [search] ou nouvelle [form]) ")])];
+      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "text",
+        name: "tag",
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+          return $setup.searchQuery = $event;
+        }),
+        "class": "songAdd",
+        onKeyup: $setup.autocomplete
+      }, null, 544
+      /* HYDRATE_EVENTS, NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.searchQuery]]), $setup.searchresults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.searchresults, function (result) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+          key: result.id,
+          onClick: function onClick($event) {
+            return $setup.chooseSong(result.id, $event);
+          }
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.title), 1
+        /* TEXT */
+        )], 8
+        /* PROPS */
+        , _hoisted_17);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])];
     }),
     _: 1
     /* STABLE */
@@ -28828,7 +28927,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.title[data-v-3c700afe], .titleEdit-container[data-v-3c700afe] {\n    display: flex;\n    align-items: center;\n}\n.titleEdit-container[data-v-3c700afe], .titleEdit[data-v-3c700afe] {\n    width: 100%;\n}\n.editAction[data-v-3c700afe] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.actions[data-v-3c700afe] {\n    display: flex;\n}\n.editAction img[data-v-3c700afe] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3c700afe] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.actions .send[data-v-3c700afe] {\n    width: 100%;\n    margin-right: .5em;\n}\n.actions .remove[data-v-3c700afe]:hover {\n    background: var(--danger);\n}\n.actions .remove[data-v-3c700afe] {\n    width: 100%;\n    margin-left: .5em;\n}\n@media screen and (max-width: 768px) {\n.editAction .cancel[data-v-3c700afe] {\n        right: -.9em;\n        top: -1.2em;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.title[data-v-3c700afe], .titleEdit-container[data-v-3c700afe] {\n    display: flex;\n    align-items: center;\n}\n.titleEdit-container[data-v-3c700afe], .titleEdit[data-v-3c700afe] {\n    width: 100%;\n}\n.editAction[data-v-3c700afe] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.actions[data-v-3c700afe] {\n    display: flex;\n}\n.editAction img[data-v-3c700afe] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3c700afe] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.actions .send[data-v-3c700afe] {\n    width: 100%;\n    margin-right: .5em;\n}\n.actions .remove[data-v-3c700afe]:hover {\n    background: var(--danger);\n}\n.actions .remove[data-v-3c700afe] {\n    width: 100%;\n    margin-left: .5em;\n}\n.modal-container[data-v-3c700afe] {\n    width: 100%;\n}\n.modal-container label[data-v-3c700afe] {\n    font-size: .8em;\n    font-style: italic;\n    margin-right: .8em;\n}\n.modal-inner .songAdd[data-v-3c700afe] {\n    width: 100%;\n}\n.searchresults[data-v-3c700afe] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n    color: var(--tagColor);\n}\n.searchresults li[data-v-3c700afe] {\n    font-size: .7em;\n    padding: .5em .8em;\n    font-style: italic;\n    cursor: pointer;\n}\n.name[data-v-3c700afe] {\n    font-size: .7em;\n}\n@media screen and (max-width: 768px) {\n.editAction .cancel[data-v-3c700afe] {\n        right: -.9em;\n        top: -1.2em;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
