@@ -87,7 +87,7 @@ class TagsController extends Controller
     public function updateSong(Tag $tag, Request $request)
     {
         // we may have two different formats for the request
-        if ($request["song"]["id"]) {
+        if (is_array($request["song"]) && array_key_exists("id", $request["song"])) {
             $song = Song::find($request["song"]["id"]);
         } else {
             $song = Song::find($request->song);
