@@ -18,12 +18,13 @@ It is not possible to use the app (access songs...) without login first.
 
 Laravel8, Vue3, Intertia, Laravel Scout, Quill (WYSIWYG plugin)
 
-## First launch
+## First launch (what to do after a git clone)
 
-- update your .env with your dev environment variables
+- copy .env.example as .env and fill it with your dev environment variables
 - run `composer install`
-- run `php artisan migrate`
 - run `npm install`
+- generate a key : `php artisan key:generate`
+- run `php artisan migrate`
 - run `yarn build`
 - run `php artisan serve`
 
