@@ -7,6 +7,7 @@ use App\Http\Controllers\ArtistsController;
 use App\Http\Controllers\SongsController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::get('songs', [SongsController::class, 'list'])->middleware(['auth', 'veri
 Route::get('songs/{song}', [SongsController::class, 'show'])->middleware(['auth', 'verified'])->name('songpage');
 // song edition
 Route::post('songs/{song}/edit', [SongsController::class, 'edit'])->middleware(['auth', 'verified'])->name('songedition');
+// search
+Route::post('songs/search', [SongsController::class, 'suggestSongName'])->middleware(['auth', 'verified'])->name('songsuggestion');
 // add or remove tag to song
 Route::post('songs/{song}/tags/update', [SongsController::class, 'updateTag'])->middleware(['auth', 'verified'])->name('songtag-update');
 // delete song
@@ -49,6 +52,8 @@ Route::get('tags/{tag}', [TagsController::class, 'show'])->middleware(['auth', '
 Route::post('tags/{tag}/edit', [TagsController::class, 'edit'])->middleware(['auth', 'verified'])->name('tagedition');
 // search
 Route::post('tags/search', [TagsController::class, 'suggestTagName'])->middleware(['auth', 'verified'])->name('tagsearch');
+// add or remove song to tag
+Route::post('tags/{tag}/songs/update', [TagsController::class, 'updateSong'])->middleware(['auth', 'verified'])->name('tagsong-update');
 // add or remove tag following for current user
 Route::post('tags/{tag}/users/update', [TagsController::class, 'updateFav'])->middleware(['auth', 'verified'])->name('tagfav');
 // delete tag
@@ -62,9 +67,13 @@ Route::get('artists', [ArtistsController::class, 'list'])->middleware(['auth', '
 Route::get('artists/{artist}', [ArtistsController::class, 'show'])->middleware(['auth', 'verified'])->name('artistpage');
 // artist edition
 Route::post('artists/{artist}/edit', [ArtistsController::class, 'edit'])->middleware(['auth', 'verified'])->name('artistedition');
-// API
+// search
 Route::post('artists/search', [ArtistsController::class, 'suggestArtistName'])->middleware(['auth', 'verified'])->name('artistsuggestion');
 // delete artist
 Route::delete('artists/{artist}', [ArtistsController::class, 'delete'])->middleware(['auth', 'verified'])->name('artistdeletion');
+
+
+// global search
+Route::post('search', [SearchController::class, 'globalSearch'])->middleware(['auth', 'verified'])->name('global-search');
 
 require __DIR__.'/auth.php';

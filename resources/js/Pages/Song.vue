@@ -229,7 +229,7 @@ const chooseArtist = (event) => {
     list-style: none;
     background: rgba(255, 255, 255, .8);
     color: black;
-    border: 1px solid var(--songColor);
+    border: 1px solid var(--darkGrey);
     position: relative;
     top: -.5em;
     box-sizing: border-box;

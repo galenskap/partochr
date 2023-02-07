@@ -144,7 +144,7 @@ label {
     margin: 0;
     list-style: none;
     background: rgba(255, 255, 255, .8);
-    color: var(--songColor);
+    color: var(--darkGrey);
     border: 1px solid var(--songColor);
     position: relative;
     top: -.5em;

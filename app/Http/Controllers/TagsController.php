@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Models\Song;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -14,13 +15,11 @@ class TagsController extends Controller
 {
     public function show(Tag $tag)
     {
-        // get songs for this tag
-        $songs = $tag->songs()->get();
-        $songs->load('artist');
+        // get songs and their artists name for this tag
+        $tag->load('songs.artist');
 
         return Inertia::render('Tag', [
             'tag' => $tag,
-            'songs' => $songs,
         ]);
     }
 
@@ -81,6 +80,33 @@ class TagsController extends Controller
         return response()->json(array(
             'code' => 200,
             'tags' => $tags,
+        ), 200);
+    }
+
+    // Add or remove song to given tag
+    public function updateSong(Tag $tag, Request $request)
+    {
+        // we may have two different formats for the request
+        if ($request["song"]["id"]) {
+            $song = Song::find($request["song"]["id"]);
+        } else {
+            $song = Song::find($request->song);
+        }
+
+        // is given tag already in relationship with current song?
+        if ($song->hasTag($tag)) {
+            $song->tags()->detach($tag);
+        } else {
+            $song->tags()->attach($tag);
+        }
+
+        // reload object
+        $tag->load('songs.artist');
+
+        // return updated songs list for given tag
+        return response()->json(array(
+            'code' => 200,
+            'songs' => $tag->songs,
         ), 200);
     }
 
