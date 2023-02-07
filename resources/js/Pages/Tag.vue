@@ -213,7 +213,7 @@ const chooseSong = (songId, event) => {
     position: relative;
     top: -.5em;
     box-sizing: border-box;
-    color: var(--tagColor);
+    color: var(--songColor);
 }
 
 .searchresults li {

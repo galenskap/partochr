@@ -1,4 +1,5 @@
 <script setup>
+import { computed, reactive, ref } from "vue";
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import TagBigButton from '@/Components/TagBigButton.vue';
@@ -6,6 +7,69 @@ import SongBigButton from '@/Components/SongBigButton.vue';
 import PlusButton from '@/Components/PlusButton.vue';
 
 defineProps(['tags', 'songs']);
+
+let searchresults = ref();
+
+const autocomplete = (event) => {
+    let searchterm = event.target.value;
+
+    if (searchterm.length > 2) {
+        axios.post('/search', {
+            search: searchterm,
+        })
+        .then(function (response) {
+
+                searchresults.value = [];
+
+                // SONGS
+                if (response.data.songs.length > 0) {
+                    response.data.songs.forEach(element => {
+                        searchresults.value.push({
+                            "id": element.id,
+                            "display": element.title,
+                            "class": "songs",
+                        });
+                    });
+                }
+
+                // TAGS
+                if (response.data.tags.length > 0) {
+                    response.data.tags.forEach(element => {
+                        searchresults.value.push({
+                            "id": element.id,
+                            "display": element.name,
+                            "class": "tags",
+                        });
+                    });
+                }
+
+                // ARTISTS
+                if (response.data.artists.length > 0) {
+                    response.data.artists.forEach(element => {
+                        searchresults.value.push({
+                            "id": element.id,
+                            "display": element.name,
+                            "class": "artists",
+                        });
+                    });
+                }
+
+            })
+            .catch(function (errors) {
+                toast(errors.message, 'danger');
+            });
+    } else {
+        // empty suggestions
+        searchresults.value = null;
+    }
+}
+
+const goTo = (type, id) => {
+    // construct URL
+    const target = '/' + type + '/' + id;
+    // redirect
+    window.location = target;
+}
 </script>
 
 <template>
@@ -41,7 +105,10 @@ defineProps(['tags', 'songs']);
 
             <p class="search">
                 <span class="label">ou chercher :</span>
-                <input type="text" class="search-form" placeholder="une chanson, un classeur..." />
+                <input type="text" name="searchform" class="global-search" @keyup="autocomplete" placeholder="une chanson, un classeur..." />
+                <ul v-if="searchresults" class="searchresults">
+                    <li v-for="result in searchresults" :key="result.id" @click="goTo(result.class, result.id)" :class="result.class">{{ result.display }}</li>
+                </ul>
             </p>
         </section>
 
@@ -101,10 +168,36 @@ section {
 .access {
     margin-top: 2em;
 }
-.search-form {
+.global-search {
     font-style: italic;
     width: 100%;
 }
+.searchresults {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background: rgba(255, 255, 255, .8);
+    border: 1px solid var(--songColor);
+    position: relative;
+    top: -.5em;
+    box-sizing: border-box;
+}
+.searchresults li {
+    font-size: .8em;
+    padding: .5em .8em;
+    font-style: italic;
+    cursor: pointer;
+}
+.searchresults .songs {
+    color: var(--songColor);
+}
+.searchresults .tags {
+    color: var(--tagColor);
+}
+.searchresults .artists {
+    color: var(--darkGrey);
+}
+
 .taglist, .songlist {
     list-style: none;
     padding: 0;

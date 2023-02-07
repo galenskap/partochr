@@ -7,6 +7,7 @@ use App\Http\Controllers\ArtistsController;
 use App\Http\Controllers\SongsController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,5 +71,9 @@ Route::post('artists/{artist}/edit', [ArtistsController::class, 'edit'])->middle
 Route::post('artists/search', [ArtistsController::class, 'suggestArtistName'])->middleware(['auth', 'verified'])->name('artistsuggestion');
 // delete artist
 Route::delete('artists/{artist}', [ArtistsController::class, 'delete'])->middleware(['auth', 'verified'])->name('artistdeletion');
+
+
+// global search
+Route::post('search', [SearchController::class, 'globalSearch'])->middleware(['auth', 'verified'])->name('global-search');
 
 require __DIR__.'/auth.php';

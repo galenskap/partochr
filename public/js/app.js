@@ -23116,11 +23116,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Layouts_Authenticated_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/Authenticated.vue */ "./resources/js/Layouts/Authenticated.vue");
-/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var _Components_TagBigButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/TagBigButton.vue */ "./resources/js/Components/TagBigButton.vue");
-/* harmony import */ var _Components_SongBigButton_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/SongBigButton.vue */ "./resources/js/Components/SongBigButton.vue");
-/* harmony import */ var _Components_PlusButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/PlusButton.vue */ "./resources/js/Components/PlusButton.vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _Layouts_Authenticated_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Layouts/Authenticated.vue */ "./resources/js/Layouts/Authenticated.vue");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _Components_TagBigButton_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/TagBigButton.vue */ "./resources/js/Components/TagBigButton.vue");
+/* harmony import */ var _Components_SongBigButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/SongBigButton.vue */ "./resources/js/Components/SongBigButton.vue");
+/* harmony import */ var _Components_PlusButton_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Components/PlusButton.vue */ "./resources/js/Components/PlusButton.vue");
+
 
 
 
@@ -23131,13 +23133,77 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
+    var searchresults = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
+
+    var autocomplete = function autocomplete(event) {
+      var searchterm = event.target.value;
+
+      if (searchterm.length > 2) {
+        axios.post('/search', {
+          search: searchterm
+        }).then(function (response) {
+          searchresults.value = []; // SONGS
+
+          if (response.data.songs.length > 0) {
+            response.data.songs.forEach(function (element) {
+              searchresults.value.push({
+                "id": element.id,
+                "display": element.title,
+                "class": "songs"
+              });
+            });
+          } // TAGS
+
+
+          if (response.data.tags.length > 0) {
+            response.data.tags.forEach(function (element) {
+              searchresults.value.push({
+                "id": element.id,
+                "display": element.name,
+                "class": "tags"
+              });
+            });
+          } // ARTISTS
+
+
+          if (response.data.artists.length > 0) {
+            response.data.artists.forEach(function (element) {
+              searchresults.value.push({
+                "id": element.id,
+                "display": element.name,
+                "class": "artists"
+              });
+            });
+          }
+        })["catch"](function (errors) {
+          toast(errors.message, 'danger');
+        });
+      } else {
+        // empty suggestions
+        searchresults.value = null;
+      }
+    };
+
+    var goTo = function goTo(type, id) {
+      // construct URL
+      var target = '/' + type + '/' + id; // redirect
+
+      window.location = target;
+    };
+
     var __returned__ = {
-      BreezeAuthenticatedLayout: _Layouts_Authenticated_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-      Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Head,
-      Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link,
-      TagBigButton: _Components_TagBigButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-      SongBigButton: _Components_SongBigButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-      PlusButton: _Components_PlusButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+      searchresults: searchresults,
+      autocomplete: autocomplete,
+      goTo: goTo,
+      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed,
+      reactive: vue__WEBPACK_IMPORTED_MODULE_0__.reactive,
+      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
+      BreezeAuthenticatedLayout: _Layouts_Authenticated_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+      Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.Head,
+      Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.Link,
+      TagBigButton: _Components_TagBigButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+      SongBigButton: _Components_SongBigButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+      PlusButton: _Components_PlusButton_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -25477,25 +25543,28 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Tous les artistes");
 
-var _hoisted_11 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "search"
-  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_11 = {
+  "class": "search"
+};
+
+var _hoisted_12 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "label"
-  }, "ou chercher :"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
-    "class": "search-form",
-    placeholder: "une chanson, un classeur..."
-  })], -1
+  }, "ou chercher :", -1
   /* HOISTED */
   );
 });
 
-var _hoisted_12 = {
+var _hoisted_13 = {
+  key: 0,
+  "class": "searchresults"
+};
+var _hoisted_14 = ["onClick"];
+var _hoisted_15 = {
   "class": "my-tags"
 };
 
-var _hoisted_13 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_16 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": ""
   }, " Classeurs favoris ", -1
@@ -25503,14 +25572,14 @@ var _hoisted_13 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_14 = {
+var _hoisted_17 = {
   "class": "taglist"
 };
-var _hoisted_15 = {
+var _hoisted_18 = {
   "class": "my-songs"
 };
 
-var _hoisted_16 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_19 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": ""
   }, " Mes dernières chansons ", -1
@@ -25518,7 +25587,7 @@ var _hoisted_16 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_17 = {
+var _hoisted_20 = {
   "class": "songlist"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -25572,7 +25641,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1
         /* STABLE */
 
-      })])]), _hoisted_11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["PlusButton"], {
+      })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "text",
+        name: "searchform",
+        "class": "global-search",
+        onKeyup: $setup.autocomplete,
+        placeholder: "une chanson, un classeur..."
+      }, null, 32
+      /* HYDRATE_EVENTS */
+      ), $setup.searchresults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.searchresults, function (result) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+          key: result.id,
+          onClick: function onClick($event) {
+            return $setup.goTo(result["class"], result.id);
+          },
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(result["class"])
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.display), 11
+        /* TEXT, CLASS, PROPS */
+        , _hoisted_14);
+      }), 128
+      /* KEYED_FRAGMENT */
+      ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["PlusButton"], {
         model: "tags"
       }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.tags, function (tag) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["TagBigButton"], {
@@ -25585,7 +25674,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         , ["id", "tag"]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["PlusButton"], {
+      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["PlusButton"], {
         model: "songs"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" latest songs links "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.songs, function (song) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["SongBigButton"], {
@@ -28483,7 +28572,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.artist-big-button[data-v-1bcae860] {\n        display: flex;\n        flex-direction: column;\n        padding: 0.5em 1em;\n        border-radius: 3px;\n        background-color: var(--tagColor);\n        color: var(--white);\n        cursor: pointer;\n        margin-bottom: .5em;\n        transition: ease-in-out .2s;\n        text-decoration: none;\n}\n.artist-big-button[data-v-1bcae860]:hover {\n        opacity: .8;\n        transition: ease-in-out .2s;\n}\n.name[data-v-1bcae860] {\n        font-size: 1em;\n}\n.nb-songs[data-v-1bcae860] {\n        font-size: .8em;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.artist-big-button[data-v-1bcae860] {\n        display: flex;\n        flex-direction: column;\n        padding: 0.5em 1em;\n        border-radius: 3px;\n        background-color: var(--darkGrey);\n        color: var(--white);\n        cursor: pointer;\n        margin-bottom: .5em;\n        transition: ease-in-out .2s;\n        text-decoration: none;\n}\n.artist-big-button[data-v-1bcae860]:hover {\n        opacity: .8;\n        transition: ease-in-out .2s;\n}\n.name[data-v-1bcae860] {\n        font-size: 1em;\n}\n.nb-songs[data-v-1bcae860] {\n        font-size: .8em;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28819,7 +28908,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hug[data-v-097ba13b] {\n    font-style: italic;\n    margin: 2em 0 .2em;\n}\n.auth-links[data-v-097ba13b], .access-links[data-v-097ba13b] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n    font-size: .8em;\n}\n.auth-links button[data-v-097ba13b],\n.access-links button[data-v-097ba13b] {\n    margin: 0 .3em .3em 0;\n}\n.access-links li[data-v-097ba13b] {\n    flex: 1 1 100%;\n    display: flex;\n}\n@media screen and (min-width: 768px) {\n.auth-links[data-v-097ba13b], .access-links[data-v-097ba13b] {\n        display: flex;\n}\n}\nsection[data-v-097ba13b] {\n    margin-bottom: 2em;\n    display: flex;\n    flex-direction: column;\n}\n.access[data-v-097ba13b] {\n    margin-top: 2em;\n}\n.search-form[data-v-097ba13b] {\n    font-style: italic;\n    width: 100%;\n}\n.taglist[data-v-097ba13b], .songlist[data-v-097ba13b] {\n    list-style: none;\n    padding: 0;\n    display: flex;\n    flex-direction: column;\n}\n.taglist li[data-v-097ba13b], .songlist li[data-v-097ba13b] {\n    display: flex;\n    flex-direction: row;\n    margin-bottom: .5em;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hug[data-v-097ba13b] {\n    font-style: italic;\n    margin: 2em 0 .2em;\n}\n.auth-links[data-v-097ba13b], .access-links[data-v-097ba13b] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n    font-size: .8em;\n}\n.auth-links button[data-v-097ba13b],\n.access-links button[data-v-097ba13b] {\n    margin: 0 .3em .3em 0;\n}\n.access-links li[data-v-097ba13b] {\n    flex: 1 1 100%;\n    display: flex;\n}\n@media screen and (min-width: 768px) {\n.auth-links[data-v-097ba13b], .access-links[data-v-097ba13b] {\n        display: flex;\n}\n}\nsection[data-v-097ba13b] {\n    margin-bottom: 2em;\n    display: flex;\n    flex-direction: column;\n}\n.access[data-v-097ba13b] {\n    margin-top: 2em;\n}\n.global-search[data-v-097ba13b] {\n    font-style: italic;\n    width: 100%;\n}\n.searchresults[data-v-097ba13b] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n}\n.searchresults li[data-v-097ba13b] {\n    font-size: .8em;\n    padding: .5em .8em;\n    font-style: italic;\n    cursor: pointer;\n}\n.searchresults .songs[data-v-097ba13b] {\n    color: var(--songColor);\n}\n.searchresults .tags[data-v-097ba13b] {\n    color: var(--tagColor);\n}\n.searchresults .artists[data-v-097ba13b] {\n    color: var(--darkGrey);\n}\n.taglist[data-v-097ba13b], .songlist[data-v-097ba13b] {\n    list-style: none;\n    padding: 0;\n    display: flex;\n    flex-direction: column;\n}\n.taglist li[data-v-097ba13b], .songlist li[data-v-097ba13b] {\n    display: flex;\n    flex-direction: row;\n    margin-bottom: .5em;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28843,7 +28932,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nlabel[data-v-e433ae88] {\n    margin-top: 1em;\n    display: block;\n}\n.titleEdit[data-v-e433ae88], .artistEdit[data-v-e433ae88], .yearEdit[data-v-e433ae88], .searchresults[data-v-e433ae88] {\n    width: 100%;\n}\n.lyrics[data-v-e433ae88] {\n    margin-top: 2em;\n    white-space: pre-wrap;\n}\n.searchresults[data-v-e433ae88] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    color: var(--songColor);\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n}\n.searchresults li[data-v-e433ae88] {\n    font-size: .8em;\n    padding: .5em .8em;\n    font-style: italic;\n    cursor: pointer;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nlabel[data-v-e433ae88] {\n    margin-top: 1em;\n    display: block;\n}\n.titleEdit[data-v-e433ae88], .artistEdit[data-v-e433ae88], .yearEdit[data-v-e433ae88], .searchresults[data-v-e433ae88] {\n    width: 100%;\n}\n.lyrics[data-v-e433ae88] {\n    margin-top: 2em;\n    white-space: pre-wrap;\n}\n.searchresults[data-v-e433ae88] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    color: var(--darkGrey);\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n}\n.searchresults li[data-v-e433ae88] {\n    font-size: .8em;\n    padding: .5em .8em;\n    font-style: italic;\n    cursor: pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28891,7 +28980,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.tags h3[data-v-3a3c4c84] {\n    margin-bottom: 0;\n}\n.taglist[data-v-3a3c4c84] {\n    padding: 0;\n    display: flex;\n    flex-wrap: wrap;\n    margin: 0;\n    align-items: center;\n}\n.title[data-v-3a3c4c84] {\n    margin-bottom: 2em;\n}\n.title h2[data-v-3a3c4c84] {\n    margin-bottom: .1em;\n}\n.title .song-details[data-v-3a3c4c84] {\n    font-weight: lighter;\n    font-style: italic;\n    margin: 0;\n    font-size: .9em;\n}\n.editAction[data-v-3a3c4c84] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.editAction img[data-v-3a3c4c84] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3a3c4c84] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.titleEdit[data-v-3a3c4c84], .artistEdit[data-v-3a3c4c84], .yearEdit[data-v-3a3c4c84], .searchresults[data-v-3a3c4c84] {\n    width: 100%;\n}\n.actions[data-v-3a3c4c84] {\n    display: flex;\n}\n.actions .send[data-v-3a3c4c84] {\n    width: 100%;\n    margin-right: .5em;\n}\n.actions .remove[data-v-3a3c4c84] {\n    width: 100%;\n    margin-left: .5em;\n}\n.actions .remove[data-v-3a3c4c84]:hover {\n    background: var(--danger);\n}\n.lyrics[data-v-3a3c4c84] {\n    margin-top: 1em;\n    white-space: pre-wrap;\n}\n.searchresults[data-v-3a3c4c84] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    color: black;\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n}\n.searchresults li[data-v-3a3c4c84] {\n    font-size: .7em;\n    padding: .2em .5em;\n    font-style: italic;\n    cursor: pointer;\n}\n@media screen and (max-width: 768px) {\n.editAction .cancel[data-v-3a3c4c84] {\n        right: -.9em;\n        top: -1.2em;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.tags h3[data-v-3a3c4c84] {\n    margin-bottom: 0;\n}\n.taglist[data-v-3a3c4c84] {\n    padding: 0;\n    display: flex;\n    flex-wrap: wrap;\n    margin: 0;\n    align-items: center;\n}\n.title[data-v-3a3c4c84] {\n    margin-bottom: 2em;\n}\n.title h2[data-v-3a3c4c84] {\n    margin-bottom: .1em;\n}\n.title .song-details[data-v-3a3c4c84] {\n    font-weight: lighter;\n    font-style: italic;\n    margin: 0;\n    font-size: .9em;\n}\n.editAction[data-v-3a3c4c84] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.editAction img[data-v-3a3c4c84] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3a3c4c84] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.titleEdit[data-v-3a3c4c84], .artistEdit[data-v-3a3c4c84], .yearEdit[data-v-3a3c4c84], .searchresults[data-v-3a3c4c84] {\n    width: 100%;\n}\n.actions[data-v-3a3c4c84] {\n    display: flex;\n}\n.actions .send[data-v-3a3c4c84] {\n    width: 100%;\n    margin-right: .5em;\n}\n.actions .remove[data-v-3a3c4c84] {\n    width: 100%;\n    margin-left: .5em;\n}\n.actions .remove[data-v-3a3c4c84]:hover {\n    background: var(--danger);\n}\n.lyrics[data-v-3a3c4c84] {\n    margin-top: 1em;\n    white-space: pre-wrap;\n}\n.searchresults[data-v-3a3c4c84] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    color: black;\n    border: 1px solid var(--darkGrey);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n}\n.searchresults li[data-v-3a3c4c84] {\n    font-size: .7em;\n    padding: .2em .5em;\n    font-style: italic;\n    cursor: pointer;\n}\n@media screen and (max-width: 768px) {\n.editAction .cancel[data-v-3a3c4c84] {\n        right: -.9em;\n        top: -1.2em;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28939,7 +29028,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.title[data-v-3c700afe], .titleEdit-container[data-v-3c700afe] {\n    display: flex;\n    align-items: center;\n}\n.titleEdit-container[data-v-3c700afe], .titleEdit[data-v-3c700afe] {\n    width: 100%;\n}\n.editAction[data-v-3c700afe] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.actions[data-v-3c700afe] {\n    display: flex;\n    margin-bottom: 3em;\n}\n.editAction img[data-v-3c700afe] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3c700afe] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.actions .send[data-v-3c700afe] {\n    width: 100%;\n    margin-right: .5em;\n}\n.actions .remove[data-v-3c700afe]:hover {\n    background: var(--danger);\n}\n.actions .remove[data-v-3c700afe] {\n    width: 100%;\n    margin-left: .5em;\n}\n.modal-inner[data-v-3c700afe] {\n    width: 100%;\n    margin-top: 3em;\n}\n.modal-inner label[data-v-3c700afe] {\n    font-size: .8em;\n    font-style: italic;\n    margin-right: .8em;\n}\n.modal-inner .songAdd[data-v-3c700afe] {\n    width: 100%;\n}\n.searchresults[data-v-3c700afe] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n    color: var(--tagColor);\n}\n.searchresults li[data-v-3c700afe] {\n    font-size: .7em;\n    padding: .5em .8em;\n    font-style: italic;\n    cursor: pointer;\n}\n.name[data-v-3c700afe] {\n    font-size: .7em;\n}\n@media screen and (max-width: 768px) {\n.editAction .cancel[data-v-3c700afe] {\n        right: -.9em;\n        top: -1.2em;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.title[data-v-3c700afe], .titleEdit-container[data-v-3c700afe] {\n    display: flex;\n    align-items: center;\n}\n.titleEdit-container[data-v-3c700afe], .titleEdit[data-v-3c700afe] {\n    width: 100%;\n}\n.editAction[data-v-3c700afe] {\n    background: none;\n    width: auto;\n    position: absolute;\n    right: .5em;\n    top: 3em;\n}\n.actions[data-v-3c700afe] {\n    display: flex;\n    margin-bottom: 3em;\n}\n.editAction img[data-v-3c700afe] {\n    width: 2em;\n    height: 2em;\n}\n.editAction .cancel[data-v-3c700afe] {\n    position: relative;\n    top: .2em;\n    right: .2em;\n    width: 1.9em;\n    height: 1.9em;\n}\n.actions .send[data-v-3c700afe] {\n    width: 100%;\n    margin-right: .5em;\n}\n.actions .remove[data-v-3c700afe]:hover {\n    background: var(--danger);\n}\n.actions .remove[data-v-3c700afe] {\n    width: 100%;\n    margin-left: .5em;\n}\n.modal-inner[data-v-3c700afe] {\n    width: 100%;\n    margin-top: 3em;\n}\n.modal-inner label[data-v-3c700afe] {\n    font-size: .8em;\n    font-style: italic;\n    margin-right: .8em;\n}\n.modal-inner .songAdd[data-v-3c700afe] {\n    width: 100%;\n}\n.searchresults[data-v-3c700afe] {\n    padding: 0;\n    margin: 0;\n    list-style: none;\n    background: rgba(255, 255, 255, .8);\n    border: 1px solid var(--songColor);\n    position: relative;\n    top: -.5em;\n    box-sizing: border-box;\n    color: var(--songColor);\n}\n.searchresults li[data-v-3c700afe] {\n    font-size: .7em;\n    padding: .5em .8em;\n    font-style: italic;\n    cursor: pointer;\n}\n.name[data-v-3c700afe] {\n    font-size: .7em;\n}\n@media screen and (max-width: 768px) {\n.editAction .cancel[data-v-3c700afe] {\n        right: -.9em;\n        top: -1.2em;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

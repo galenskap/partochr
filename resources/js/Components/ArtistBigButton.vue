@@ -21,7 +21,7 @@ const props = defineProps({
         flex-direction: column;
         padding: 0.5em 1em;
         border-radius: 3px;
-        background-color: var(--tagColor);
+        background-color: var(--darkGrey);
         color: var(--white);
         cursor: pointer;
         margin-bottom: .5em;
