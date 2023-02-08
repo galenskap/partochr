@@ -125,7 +125,7 @@ const goTo = (type, id) => {
 
         <section class="my-songs">
             <h2 class="">
-                Les dernières chansons publiées
+                Dernières chansons publiées
             </h2>
             <ul class="songlist">
                 <PlusButton model="songs" />

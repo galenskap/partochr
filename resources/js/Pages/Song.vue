@@ -212,11 +212,11 @@ const chooseArtist = (event) => {
 }
 .actions .send {
     width: 100%;
-    margin-right: .5em;
+    margin-left: .5em;
 }
 .actions .remove {
     width: 100%;
-    margin-left: .5em;
+    margin-right: .5em;
 }
 .actions .remove:hover {
     background: var(--danger);
