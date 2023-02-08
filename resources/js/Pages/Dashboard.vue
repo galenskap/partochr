@@ -125,11 +125,10 @@ const goTo = (type, id) => {
 
         <section class="my-songs">
             <h2 class="">
-                Mes dernières chansons
+                Les dernières chansons publiées
             </h2>
             <ul class="songlist">
                 <PlusButton model="songs" />
-                <!-- latest songs links -->
                 <SongBigButton v-for="song in songs" :key="song.id" :song="song" />
             </ul>
         </section>

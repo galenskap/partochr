@@ -117,11 +117,11 @@ const chooseSong = (songId, event) => {
         </section>
 
         <div class="actions" v-if="isEditing">
-            <button @click="sendModifications(tag.id)" class="send">
-                <span>Enregistrer</span>
-            </button>
             <button @click="sendDelete(tag.id)" class="remove">
                 <span>Supprimer</span>
+            </button>
+            <button @click="sendModifications(tag.id)" class="send">
+                <span>Enregistrer</span>
             </button>
         </div>
 

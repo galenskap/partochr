@@ -151,11 +151,11 @@ const chooseArtist = (event) => {
         </section>
 
         <div class="actions" v-if="isEditing">
-            <button @click="sendModifications(song.id)" class="send">
-                <span>Enregistrer</span>
-            </button>
             <button @click="sendDelete(song.id)" class="remove">
                 <span>Supprimer</span>
+            </button>
+            <button @click="sendModifications(song.id)" class="send">
+                <span>Enregistrer</span>
             </button>
         </div>
 

@@ -65,11 +65,11 @@ const sendDelete = (artistId) => {
         </section>
 
         <div class="actions" v-if="isEditing">
-            <button @click="sendModifications(artist.id)" class="send">
-                <span>Enregistrer</span>
-            </button>
             <button @click="sendDelete(artist.id)" class="remove">
                 <span>Supprimer</span>
+            </button>
+            <button @click="sendModifications(artist.id)" class="send">
+                <span>Enregistrer</span>
             </button>
         </div>
 
