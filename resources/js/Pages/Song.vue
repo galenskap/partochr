@@ -105,17 +105,20 @@ const chooseArtist = (event) => {
     <BreezeAuthenticatedLayout>
         <section class="title">
             <h2>
+                <label v-if="isEditing" for="title">Titre de la chanson * :</label>
                 <input v-if="isEditing" type="text" name="title" class="titleEdit" v-model="form.title" />
                 <span v-else>{{song.title}}</span>
             </h2>
             <div v-if="isEditing" class="song-details editing">
                 <div class="artist-wrapper">
+                    <label for="artist">Artiste ou groupe * :</label>
                     <input type="text" name="artist" class="artistEdit" @keyup="autocomplete" v-model="form.artist" />
                     <ul v-if="searchresults" class="searchresults">
                         <li v-for="result in searchresults" :key="result.id" @click="chooseArtist">{{ result.name }}</li>
                     </ul>
                 </div>
 
+                <label for="artist">Année de publication :</label>
                 <input type="text" name="year" class="yearEdit" v-model="form.year" />
             </div>
             <p v-else class="song-details"><Link :href="'/artists/'+song.artist.id">{{ song.artist.name }}</Link>{{ song.year ? ", "+song.year : "" }}</p>
@@ -135,6 +138,7 @@ const chooseArtist = (event) => {
         </section>
 
         <section class="lyrics">
+            <label v-if="isEditing" for="lyrics">Paroles et accords :</label>
             <QuillEditor
                 theme="bubble"
                 toolbar="essential"
