@@ -89,19 +89,19 @@ const chooseArtist = (event) => {
         <h1>Nouvelle partoche</h1>
 
         <section class="title">
-            <label for="title">Titre de la chanson :</label>
+            <label for="title">Titre de la chanson * :</label>
             <input type="text" name="title" class="titleEdit" v-model="form.title" />
 
             <div class="song-details editing">
                 <div class="artist-wrapper">
-                    <label for="artist">Artiste ou groupe :</label>
+                    <label for="artist">Artiste ou groupe * :</label>
                     <input type="text" name="artist" class="artistEdit" @keyup="autocomplete" v-model="form.artist" />
                     <ul v-if="searchresults" class="searchresults">
                         <li v-for="result in searchresults" :key="result.id" @click="chooseArtist">{{ result.name }}</li>
                     </ul>
                 </div>
 
-                <label for="artist">Année de publication :</label>
+                <label for="year">Année de publication :</label>
                 <input type="text" name="year" class="yearEdit" v-model="form.year" />
             </div>
         </section>
