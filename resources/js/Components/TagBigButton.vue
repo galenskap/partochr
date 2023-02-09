@@ -14,7 +14,7 @@ const props = defineProps({
 
 <template>
     <li>
-        <Link :href="'/tags/'+tag.id" class="tag-big-button">
+        <Link :href="'/tags/'+tag.id" class="big-button tag-big-button">
             <span class="name">{{ tag.name }}</span>
             <span class="nb-songs">{{ tag.songs_count }} {{ tag.songs_count > 1 ? "chansons" : "chanson" }}</span>
         </Link>
@@ -27,22 +27,6 @@ const props = defineProps({
         display: flex;
         flex-direction: row;
         margin-bottom: .5em;
-    }
-    .tag-big-button {
-        display: flex;
-        flex-direction: column;
-        padding: 0.5em 1em;
-        border-radius: 3px;
-        background-color: var(--tagColor);
-        color: var(--white);
-        cursor: pointer;
-        transition: ease-in-out .2s;
-        text-decoration: none;
-        width: 100%;
-    }
-    .tag-big-button:hover {
-        opacity: .8;
-        transition: ease-in-out .2s;
     }
     .name {
         font-size: 1em;

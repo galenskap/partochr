@@ -17,7 +17,7 @@ const props = defineProps({
 <template>
     <li>
         <div class="container">
-            <Link :href="'/songs/'+song.id" class="song-big-button">
+            <Link :href="'/songs/'+song.id" class="song-big-button big-button">
                 <span class="name">{{ song.title }}</span>
                 <span class="details">{{ song.artist.name }}{{ song.year ? ", "+song.year : "" }}</span>
             </Link>
@@ -32,23 +32,6 @@ const props = defineProps({
     }
     .songs .songlist .container {
         display: flex;
-    }
-    .song-big-button {
-        display: flex;
-        flex-direction: column;
-        padding: 0.5em 1em;
-        border-radius: 3px;
-        background-color: var(--songColor);
-        color: var(--white);
-        cursor: pointer;
-        margin-bottom: .5em;
-        transition: ease-in-out .2s;
-        text-decoration: none;
-        width: 100%;
-    }
-    .song-big-button:hover {
-        opacity: .8;
-        transition: ease-in-out .2s;
     }
     .name {
         font-size: 1em;

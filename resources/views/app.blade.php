@@ -20,7 +20,7 @@
     @inertiaHead
 </head>
 
-<body class="font-mono antialiased">
+<body class="font-mono antialiased theme-dark">
     @inertia
     @env ('local')
     <script src="http://localhost:8080/js/bundle.js"></script>
