@@ -7,6 +7,7 @@ use App\Models\Song;
 use Inertia\Inertia;
 use App\Models\Artist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
@@ -78,8 +79,8 @@ class SongsController extends Controller
 
     public function list()
     {
-        // get all songs // no filter, no order by, no pagination yet
-        $songs = Song::all()->load('artist'); // add artist loading
+        // get all songs
+        $songs = Song::with('artist')->orderBy('title', 'asc')->paginate(10);
 
         return Inertia::render('SongList', [
             'songs' => $songs,

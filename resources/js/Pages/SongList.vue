@@ -2,8 +2,13 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import SongBigButton from '@/Components/SongBigButton.vue';
+import Paginator from "@/Components/Paginator";
 
-defineProps(['songs']);
+const props = defineProps({
+    songs: {
+        type: Object,
+    },
+});
 </script>
 
 <template>
@@ -16,10 +21,11 @@ defineProps(['songs']);
 
         <section class="songs">
             <ul class="songlist">
-                <SongBigButton v-for="song in songs" :key="song.id" :song="song" />
+                <SongBigButton v-for="song in songs.data" :key="song.id" :song="song" />
             </ul>
         </section>
 
+        <Paginator :paginator="songs" />
     </BreezeAuthenticatedLayout>
 </template>
 

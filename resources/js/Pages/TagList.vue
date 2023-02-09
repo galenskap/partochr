@@ -2,8 +2,13 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import TagBigButton from '@/Components/TagBigButton.vue';
+import Paginator from "@/Components/Paginator";
 
-defineProps(['tags']);
+const props = defineProps({
+    tags: {
+        type: Object,
+    },
+});
 </script>
 
 <template>
@@ -16,10 +21,11 @@ defineProps(['tags']);
 
         <section class="tags">
             <ul class="taglist">
-                <TagBigButton :tag="tag" :displayFav="true" v-for="tag in tags" :key="tag.id" />
+                <TagBigButton :tag="tag" :displayFav="true" v-for="tag in tags.data" :key="tag.id" />
             </ul>
         </section>
 
+        <Paginator :paginator="tags" />
     </BreezeAuthenticatedLayout>
 </template>
 

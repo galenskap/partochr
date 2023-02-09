@@ -25,8 +25,8 @@ class TagsController extends Controller
 
     public function list()
     {
-        // get all tags // no filter, no order by, no pagination yet
-        $tags = Tag::withCount('songs')->get();
+        // get all tags
+        $tags = Tag::withCount('songs')->orderBy('created_at', 'asc')->paginate(10);
 
         return Inertia::render('TagList', [
             'tags' => $tags,
