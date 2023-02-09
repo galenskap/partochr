@@ -4,7 +4,8 @@
     .editAction,
     .tags.subpart,
     .songs .modal-inner,
-    .title .star
+    .title .star,
+    .last-updated
     {
         display: none!important;
     }

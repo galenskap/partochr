@@ -139,12 +139,13 @@ const goTo = (type, id) => {
 
         <section class="my-songs">
             <h2 class="">
-                Dernières chansons publiées
+                Dernières chansons modifiées
             </h2>
             <ul class="songlist">
                 <PlusButton model="songs" />
                 <SongBigButton v-for="song in songs" :key="song.id" :song="song" />
             </ul>
+            <Link :href="route('song-recents')" class="last-updated link">Voir les chansons par date de modification</Link>
         </section>
     </BreezeAuthenticatedLayout>
 </template>
@@ -278,5 +279,10 @@ section {
 }
 .access-links .btn-artist:hover {
     background-color: var(--darkGrey);
+}
+.last-updated {
+    text-align: center;
+    font-size: .8em;
+    text-decoration: none;
 }
 </style>

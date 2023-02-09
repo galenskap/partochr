@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/inertia-vue3';
+import moment from 'moment';
 
 const props = defineProps({
     song: {
@@ -10,12 +11,21 @@ const props = defineProps({
     },
     chooseSong: {
         type: Function,
+    },
+    showLastUpdate: {
+        type: Boolean,
     }
 });
+
+const formatDate = (rawDate) => {
+    if (rawDate) {
+        return moment(String(rawDate)).format('DD/MM/YYYY');
+    }
+};
 </script>
 
 <template>
-    <li>
+    <li :class="showLastUpdate ? 'recent' : 'normal'">
         <div class="container">
             <Link :href="'/songs/'+song.id" class="song-big-button big-button">
                 <span class="name">{{ song.title }}</span>
@@ -23,6 +33,7 @@ const props = defineProps({
             </Link>
             <img class="delete" v-if="isEditing" @click="chooseSong(song, $event)" src="../../img/delete.svg" alt="Supprimer" />
         </div>
+        <span class="last-update" v-if="showLastUpdate">Mis à jour le {{ formatDate(song.updated_at) }} par {{ song.user.name }}</span>
     </li>
 </template>
 
@@ -32,6 +43,10 @@ const props = defineProps({
     }
     .songs .songlist .container {
         display: flex;
+    }
+    .songs .songlist li.recent {
+        display: flex;
+        flex-direction: column;
     }
     .name {
         font-size: 1em;
@@ -45,5 +60,11 @@ const props = defineProps({
         height: 2em;
         margin: auto .5em;
         cursor: pointer;
+    }
+    .last-update {
+        font-size: .65em;
+        font-style: italic;
+        margin-bottom: 1.4em;
+        margin-top: -.2em;
     }
 </style>

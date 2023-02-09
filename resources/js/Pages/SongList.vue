@@ -8,6 +8,9 @@ const props = defineProps({
     songs: {
         type: Object,
     },
+    recents: {
+        type: Boolean,
+    }
 });
 </script>
 
@@ -16,12 +19,13 @@ const props = defineProps({
 
     <BreezeAuthenticatedLayout>
         <section class="title">
-            <h2>Toutes les chansons</h2>
+            <h2 v-if="recents === false">Toutes les chansons</h2>
+            <h2 v-else>Dernières chansons mises à jour</h2>
         </section>
 
         <section class="songs">
             <ul class="songlist">
-                <SongBigButton v-for="song in songs.data" :key="song.id" :song="song" />
+                <SongBigButton v-for="song in songs.data" :key="song.id" :song="song" :showLastUpdate="recents" />
             </ul>
         </section>
 

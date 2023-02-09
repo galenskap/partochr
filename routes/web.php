@@ -23,10 +23,13 @@ use App\Http\Controllers\SearchController;
 // dashboard with my tags
 Route::get('/', [UserController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('home');
 
+
 // SONGS
 // song creation
 Route::get('songs/new', [SongsController::class, 'newSongPage'])->middleware(['auth', 'verified'])->name('new-song-page');
 Route::post('songs/new', [SongsController::class, 'newSongCreate'])->middleware(['auth', 'verified'])->name('new-song-create');
+// show recently updated songs
+Route::get('songs/recently', [SongsController::class, 'recents'])->middleware(['auth', 'verified'])->name('song-recents');
 // show all songs
 Route::get('songs', [SongsController::class, 'list'])->middleware(['auth', 'verified'])->name('songlist');
 // show specific song page
@@ -39,6 +42,7 @@ Route::post('songs/search', [SongsController::class, 'suggestSongName'])->middle
 Route::post('songs/{song}/tags/update', [SongsController::class, 'updateTag'])->middleware(['auth', 'verified'])->name('songtag-update');
 // delete song
 Route::delete('songs/{song}', [SongsController::class, 'delete'])->middleware(['auth', 'verified'])->name('songdeletion');
+
 
 // TAGS
 // tag creation

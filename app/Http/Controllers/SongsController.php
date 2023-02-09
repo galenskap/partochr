@@ -18,6 +18,7 @@ class SongsController extends Controller
     public function show(Song $song)
     {
         $song->load('artist');
+        $song->load('user');
         // get tags for this song
         $song->load('tags');
 
@@ -84,6 +85,18 @@ class SongsController extends Controller
 
         return Inertia::render('SongList', [
             'songs' => $songs,
+            'recents' => false
+        ]);
+    }
+
+    public function recents()
+    {
+        // get all songs, different order
+        $songs = Song::with('artist', 'user')->orderBy('updated_at', 'desc')->paginate(10);
+
+        return Inertia::render('SongList', [
+            'songs' => $songs,
+            'recents' => true
         ]);
     }
 

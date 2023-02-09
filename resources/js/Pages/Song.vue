@@ -7,6 +7,7 @@ import PlusTagButtonModal from '@/Components/PlusTagButtonModal.vue';
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
 import axios from 'axios';
+import moment from 'moment';
 
 const props = defineProps({
     song: {
@@ -18,6 +19,7 @@ const user = computed(() => usePage().props.value.auth.user);
 let isEditing = ref(false);
 let editor = ref();
 let searchresults = ref();
+moment.locale('fr'); 
 
 const form = useForm({
     title: props.song.title,
@@ -122,7 +124,11 @@ const chooseArtist = (event) => {
                 <input type="text" name="year" class="yearEdit" v-model="form.year" />
             </div>
             <p v-else class="song-details"><Link :href="'/artists/'+song.artist.id">{{ song.artist.name }}</Link>{{ song.year ? ", "+song.year : "" }}</p>
-            <!-- edit button -->
+            
+            <div class="last-updated">
+                Dernière mise à jour : par {{ song.user.name }} {{ moment(song.updated_at).fromNow() }}.
+            </div>
+
             <button v-if="user.id == song.user_id" @click="toggleEditMode()" class="editAction">
                 <img v-if="isEditing" class="cancel" src="../../img/cancel.png" alt="Annuler" width="2em" height="2em" />
                 <img v-else class="edit" src="../../img/edit.png" alt="Éditer" width="2em" height="2em" />
@@ -184,6 +190,12 @@ const chooseArtist = (event) => {
     font-style: italic;
     margin: 0;
     font-size: .9em;
+}
+.last-updated {
+    font-size: .7em;
+    font-style: italic;
+    opacity: .6;
+    margin-top: 1em;
 }
 .editAction {
     background: none;
