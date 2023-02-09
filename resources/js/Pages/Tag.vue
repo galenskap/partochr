@@ -117,11 +117,11 @@ const chooseSong = (songId, event) => {
         </section>
 
         <div class="actions" v-if="isEditing">
-            <button @click="sendModifications(tag.id)" class="send">
-                <span>Enregistrer</span>
-            </button>
             <button @click="sendDelete(tag.id)" class="remove">
                 <span>Supprimer</span>
+            </button>
+            <button @click="sendModifications(tag.id)" class="send">
+                <span>Enregistrer</span>
             </button>
         </div>
 
@@ -178,7 +178,7 @@ const chooseSong = (songId, event) => {
 }
 .actions .send {
     width: 100%;
-    margin-right: .5em;
+    margin-left: .5em;
 }
 .actions .remove:hover {
     background: var(--danger);
@@ -186,7 +186,7 @@ const chooseSong = (songId, event) => {
 
 .actions .remove {
     width: 100%;
-    margin-left: .5em;
+    margin-right: .5em;
 }
 
 .modal-inner {

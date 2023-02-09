@@ -93,13 +93,22 @@ const goTo = (type, id) => {
             </h2>
             <ul class="access-links">
                 <li>
-                    <Link href="/tags" as="button">Tous les classeurs</Link>
+                    <Link href="/tags" as="button" class="btn-tag">
+                        <img src="../../img/folder.svg" alt="" />
+                        <span>Tous les classeurs</span>
+                    </Link>
                 </li>
                 <li>
-                    <Link href="/songs" as="button">Toutes les chansons</Link>
+                    <Link href="/songs" as="button" class="btn-song">
+                        <img src="../../img/song.svg" alt="" />
+                        <span>Toutes les chansons</span>
+                    </Link>
                 </li>
                 <li>
-                    <Link href="/artists" as="button">Tous les artistes</Link>
+                    <Link href="/artists" as="button" class="btn-artist">
+                        <img src="../../img/human.svg" alt="" />
+                        <span>Tous les artistes</span>
+                    </Link>
                 </li>
             </ul>
 
@@ -107,7 +116,12 @@ const goTo = (type, id) => {
                 <span class="label">ou chercher :</span>
                 <input type="text" name="searchform" class="global-search" @keyup="autocomplete" placeholder="une chanson, un classeur..." />
                 <ul v-if="searchresults" class="searchresults">
-                    <li v-for="result in searchresults" :key="result.id" @click="goTo(result.class, result.id)" :class="result.class">{{ result.display }}</li>
+                    <li v-for="result in searchresults" :key="result.id" @click="goTo(result.class, result.id)" :class="result.class">
+                        <img v-if="result.class == 'tags'" src="../../img/folder.svg" alt="Classeur : " />
+                        <img v-if="result.class == 'songs'" src="../../img/song.svg" alt="Chanson : " />
+                        <img v-if="result.class == 'artists'" src="../../img/human.svg" alt="Artiste : " />
+                        <span>{{ result.display }}</span>
+                    </li>
                 </ul>
             </p>
         </section>
@@ -125,13 +139,13 @@ const goTo = (type, id) => {
 
         <section class="my-songs">
             <h2 class="">
-                Mes dernières chansons
+                Dernières chansons modifiées
             </h2>
             <ul class="songlist">
                 <PlusButton model="songs" />
-                <!-- latest songs links -->
                 <SongBigButton v-for="song in songs" :key="song.id" :song="song" />
             </ul>
+            <Link :href="route('song-recents')" class="last-updated link">Voir les chansons par date de modification</Link>
         </section>
     </BreezeAuthenticatedLayout>
 </template>
@@ -187,15 +201,30 @@ section {
     padding: .5em .8em;
     font-style: italic;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.searchresults li img {
+    width: 1.5em;
+    margin-right: .7em;
 }
 .searchresults .songs {
     color: var(--songColor);
 }
+.searchresults .songs img {
+    filter: invert(50%) sepia(100%) saturate(220%) hue-rotate(148deg);
+}
 .searchresults .tags {
     color: var(--tagColor);
 }
+.searchresults .tags img {
+    filter: invert(40%) sepia(100%) saturate(400%) hue-rotate(328deg);
+}
 .searchresults .artists {
     color: var(--darkGrey);
+}
+.searchresults .artists img {
+    filter: invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) opacity(60%);
 }
 
 .taglist, .songlist {
@@ -208,5 +237,52 @@ section {
     display: flex;
     flex-direction: row;
     margin-bottom: .5em;
+}
+
+.access-links button {
+    padding: 1em;
+    position: relative;
+    overflow: hidden;
+    font-weight: bold;
+}
+.access-links button:hover {
+    opacity: .8;
+}
+.access-links button img {
+    position: absolute;
+    mix-blend-mode: overlay;
+}
+.btn-tag {
+    background-color: var(--tagColor);
+}
+.btn-song {
+    background-color: var(--songColor);
+}
+.access-links .btn-tag img {
+    filter: invert(100%);
+    width: 5.5em;
+    top: -.8em;
+    left: -1em;
+    mix-blend-mode: soft-light;
+}
+.access-links .btn-song img {
+    filter: invert(57%) sepia(100%) saturate(220%) hue-rotate(172deg);
+    width: 5.5em;
+    top: -1.6em;
+    left: -1.4em;
+}
+.access-links .btn-artist img {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) opacity(60%);
+    width: 5.2em;
+    top: -.8em;
+    left: -1em;
+}
+.access-links .btn-artist:hover {
+    background-color: var(--darkGrey);
+}
+.last-updated {
+    text-align: center;
+    font-size: .8em;
+    text-decoration: none;
 }
 </style>

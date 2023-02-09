@@ -65,11 +65,11 @@ const sendDelete = (artistId) => {
         </section>
 
         <div class="actions" v-if="isEditing">
-            <button @click="sendModifications(artist.id)" class="send">
-                <span>Enregistrer</span>
-            </button>
             <button @click="sendDelete(artist.id)" class="remove">
                 <span>Supprimer</span>
+            </button>
+            <button @click="sendModifications(artist.id)" class="send">
+                <span>Enregistrer</span>
             </button>
         </div>
 
@@ -127,11 +127,11 @@ const sendDelete = (artistId) => {
 }
 .actions .send {
     width: 100%;
-    margin-right: .5em;
+    margin-left: .5em;
 }
 .actions .remove {
     width: 100%;
-    margin-left: .5em;
+    margin-right: .5em;
 }
 .actions .remove:hover {
     background: var(--danger);

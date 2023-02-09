@@ -1,0 +1,13 @@
+@media print {
+
+    .page-header,
+    .editAction,
+    .tags.subpart,
+    .songs .modal-inner,
+    .title .star,
+    .last-updated
+    {
+        display: none!important;
+    }
+
+}

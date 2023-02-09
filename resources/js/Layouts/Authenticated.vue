@@ -8,14 +8,56 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 
 const showingNavigationDropdown = ref(false);
-const fsize = ref(1);
-const theme = ref('theme-dark');
+let fsize = ref(1);
+let theme = ref();
+
+/* USER PREFERENCES */
+
+// 1 - Dark vs Light Theme
+
+if (localStorage.getItem('theme') === "theme-light") {
+    theme = "theme-light";
+} else {
+    theme = "theme-dark"; // default value
+}
+localStorage.setItem('theme', theme);
+document.body.classList.add(theme);
 
 const switchTheme = () => {
+    if (localStorage.getItem('theme') === "theme-light") {
+        theme = "theme-dark";
+    } else {
+        theme = "theme-light";
+    }
+    localStorage.setItem('theme', theme);
     // change body class...
-    document.body.classList.toggle('theme-dark');
-    document.body.classList.toggle('theme-light');
+    document.body.classList.remove('theme-dark');
+    document.body.classList.remove('theme-light');
+    document.body.classList.add(theme);
 };
+
+// 2 - Font Size
+
+if (localStorage.getItem('fsize') != null && localStorage.getItem('fsize') != 1) {
+    fsize = localStorage.getItem('fsize');
+} else {
+    fsize = 1; // default value
+}
+localStorage.setItem('fsize', fsize);
+
+const fsizeup = () => {
+    fsize += 0.2;
+    applyFSize();
+};
+const fsizedown = () => {
+    fsize -= 0.2;
+    applyFSize();
+};
+const applyFSize = () => {
+    localStorage.setItem('fsize', fsize);
+    const main = document.querySelector('#app main');
+    main.setAttribute("style", "font-size:"+fsize+"em");
+}
 </script>
 
 <template>
@@ -30,8 +72,8 @@ const switchTheme = () => {
         </div>
 
         <div class="settings">
-            <span class="fontsize less" @click="fsize -= 0.2">A-</span>
-            <span class="fontsize more" @click="fsize += 0.2">A+</span>
+            <span class="fontsize less" @click="fsizedown">A-</span>
+            <span class="fontsize more" @click="fsizeup">A+</span>
             <img class="switchTheme" src="../../img/light.svg" alt="change mode" @click="switchTheme">
         </div>
     </header>
@@ -44,7 +86,7 @@ const switchTheme = () => {
     </header>
 
     <!-- Page Content -->
-    <main :style="{ fontSize: fsize + 'em' }" :class="theme">
+    <main :style="{ fontSize: fsize + 'em' }">
         <slot />
     </main>
 </template>

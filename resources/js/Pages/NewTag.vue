@@ -32,7 +32,7 @@ const sendModifications = () => {
         <h1>Nouveau classeur</h1>
 
         <section class="title">
-            <label for="name">Titre du classeur :</label>
+            <label for="name">Titre du classeur * :</label>
             <input type="text" name="name" class="titleEdit" v-model="form.name" />
         </section>
 

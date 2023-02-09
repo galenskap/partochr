@@ -26,8 +26,8 @@ class ArtistsController extends Controller
 
     public function list()
     {
-        // get all artists // no filter, no order by, no pagination yet
-        $artists = Artist::withCount('songs')->get();
+        // get all artists
+        $artists = Artist::withCount('songs')->orderBy('name', 'asc')->paginate(10);
 
         return Inertia::render('ArtistList', [
             'artists' => $artists,

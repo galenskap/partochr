@@ -127,3 +127,27 @@ input {
 .ql-toolbar {
     white-space: normal;
 }
+
+/* Specific buttons */
+.big-button {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 1em;
+    border-radius: 3px;
+    color: var(--white);
+    cursor: pointer;
+    transition: ease-in-out .2s;
+    text-decoration: none;
+    width: 100%;
+}
+.big-button:hover {
+    opacity: .8;
+    transition: ease-in-out .2s;
+}
+.song-big-button {
+    background-color: var(--songColor);
+    margin-bottom: .5em;
+}
+.tag-big-button {
+    background-color: var(--tagColor);
+}

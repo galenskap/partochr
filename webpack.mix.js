@@ -17,6 +17,10 @@ mix.js('resources/js/app.js', 'public/js')
         require('postcss-import'),
         require('autoprefixer'),
     ])
+    .postCss('resources/css/print.css', 'public/css', [
+        require('postcss-import'),
+        require('autoprefixer'),
+    ])
     .alias({
         '@': 'resources/js',
     });

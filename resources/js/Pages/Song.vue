@@ -7,6 +7,7 @@ import PlusTagButtonModal from '@/Components/PlusTagButtonModal.vue';
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
 import axios from 'axios';
+import moment from 'moment';
 
 const props = defineProps({
     song: {
@@ -18,6 +19,7 @@ const user = computed(() => usePage().props.value.auth.user);
 let isEditing = ref(false);
 let editor = ref();
 let searchresults = ref();
+moment.locale('fr'); 
 
 const form = useForm({
     title: props.song.title,
@@ -105,21 +107,28 @@ const chooseArtist = (event) => {
     <BreezeAuthenticatedLayout>
         <section class="title">
             <h2>
+                <label v-if="isEditing" for="title">Titre de la chanson * :</label>
                 <input v-if="isEditing" type="text" name="title" class="titleEdit" v-model="form.title" />
                 <span v-else>{{song.title}}</span>
             </h2>
             <div v-if="isEditing" class="song-details editing">
                 <div class="artist-wrapper">
+                    <label for="artist">Artiste ou groupe * :</label>
                     <input type="text" name="artist" class="artistEdit" @keyup="autocomplete" v-model="form.artist" />
                     <ul v-if="searchresults" class="searchresults">
                         <li v-for="result in searchresults" :key="result.id" @click="chooseArtist">{{ result.name }}</li>
                     </ul>
                 </div>
 
+                <label for="artist">Année de publication :</label>
                 <input type="text" name="year" class="yearEdit" v-model="form.year" />
             </div>
             <p v-else class="song-details"><Link :href="'/artists/'+song.artist.id">{{ song.artist.name }}</Link>{{ song.year ? ", "+song.year : "" }}</p>
-            <!-- edit button -->
+            
+            <div class="last-updated">
+                Dernière mise à jour : par {{ song.user.name }} {{ moment(song.updated_at).fromNow() }}.
+            </div>
+
             <button v-if="user.id == song.user_id" @click="toggleEditMode()" class="editAction">
                 <img v-if="isEditing" class="cancel" src="../../img/cancel.png" alt="Annuler" width="2em" height="2em" />
                 <img v-else class="edit" src="../../img/edit.png" alt="Éditer" width="2em" height="2em" />
@@ -135,6 +144,7 @@ const chooseArtist = (event) => {
         </section>
 
         <section class="lyrics">
+            <label v-if="isEditing" for="lyrics">Paroles et accords :</label>
             <QuillEditor
                 theme="bubble"
                 toolbar="essential"
@@ -147,11 +157,11 @@ const chooseArtist = (event) => {
         </section>
 
         <div class="actions" v-if="isEditing">
-            <button @click="sendModifications(song.id)" class="send">
-                <span>Enregistrer</span>
-            </button>
             <button @click="sendDelete(song.id)" class="remove">
                 <span>Supprimer</span>
+            </button>
+            <button @click="sendModifications(song.id)" class="send">
+                <span>Enregistrer</span>
             </button>
         </div>
 
@@ -181,6 +191,12 @@ const chooseArtist = (event) => {
     margin: 0;
     font-size: .9em;
 }
+.last-updated {
+    font-size: .7em;
+    font-style: italic;
+    opacity: .6;
+    margin-top: 1em;
+}
 .editAction {
     background: none;
     width: auto;
@@ -208,11 +224,11 @@ const chooseArtist = (event) => {
 }
 .actions .send {
     width: 100%;
-    margin-right: .5em;
+    margin-left: .5em;
 }
 .actions .remove {
     width: 100%;
-    margin-left: .5em;
+    margin-right: .5em;
 }
 .actions .remove:hover {
     background: var(--danger);
